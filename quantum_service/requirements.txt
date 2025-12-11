@@ -1,0 +1,33 @@
+# =============================================================================
+# Quantum Service Dependencies
+# =============================================================================
+# Core dependencies (required)
+pycryptodome>=3.19.0    # AES-256-GCM encryption
+
+# Post-Quantum Cryptography (optional - falls back to mock mode if missing)
+# liboqs-python>=0.9.0  # Open Quantum Safe library
+# Uncomment the line above if you have liboqs installed on your system
+# Installation: pip install liboqs-python
+# Note: Requires liboqs C library to be installed first
+# See: https://github.com/open-quantum-safe/liboqs-python
+
+# Quantum Circuit Simulation (optional - for QRNG)
+# qiskit>=1.0.0         # IBM Qiskit for quantum circuit simulation
+# qiskit-aer>=0.13.0    # Qiskit Aer simulator backend
+# Uncomment the lines above for real quantum circuit simulation
+# Note: Qiskit is large (~500MB) and may take time to install
+
+# =============================================================================
+# Installation Instructions
+# =============================================================================
+# Basic installation (mock mode):
+#   pip install -r requirements.txt
+#
+# Full installation with PQC (requires liboqs C library):
+#   1. Install liboqs: https://github.com/open-quantum-safe/liboqs
+#   2. pip install liboqs-python
+#   3. pip install -r requirements.txt
+#
+# Full installation with Qiskit:
+#   pip install qiskit qiskit-aer
+# =============================================================================

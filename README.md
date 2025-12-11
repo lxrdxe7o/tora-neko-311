@@ -1,287 +1,276 @@
-# Quantum-Secure Airline Booking System
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=180&section=header&text=✈️%20QUANTUM%20AIRWAYS&fontSize=42&fontColor=fff&animation=twinkling&fontAlignY=32&desc=Post-Quantum%20Secure%20Booking%20System&descSize=18&descAlignY=52"/>
+</p>
 
-A next-generation airline booking platform integrating **Post-Quantum Cryptography (PQC)** to protect against "Harvest Now, Decrypt Later" attacks.
+<p align="center">
+  <a href="#-quick-start"><img src="https://img.shields.io/badge/🚀_Quick_Start-blue?style=for-the-badge" alt="Quick Start"/></a>
+  <a href="#-windows-setup"><img src="https://img.shields.io/badge/🪟_Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Windows"/></a>
+  <a href="#-linux-setup"><img src="https://img.shields.io/badge/🐧_Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux"/></a>
+  <a href="#-api-endpoints"><img src="https://img.shields.io/badge/📡_API-green?style=for-the-badge" alt="API"/></a>
+</p>
 
-```
- ██████  ██    ██  █████  ███    ██ ████████ ██    ██ ███    ███
-██    ██ ██    ██ ██   ██ ████   ██    ██    ██    ██ ████  ████
-██    ██ ██    ██ ███████ ██ ██  ██    ██    ██    ██ ██ ████ ██
-██ ▄▄ ██ ██    ██ ██   ██ ██  ██ ██    ██    ██    ██ ██  ██  ██
- ██████   ██████  ██   ██ ██   ████    ██     ██████  ██      ██
-    ▀▀
-          █████  ██ ██████  ██     ██  █████  ██    ██ ███████
-         ██   ██ ██ ██   ██ ██     ██ ██   ██  ██  ██  ██
-         ███████ ██ ██████  ██  █  ██ ███████   ████   ███████
-         ██   ██ ██ ██   ██ ██ ███ ██ ██   ██    ██         ██
-         ██   ██ ██ ██   ██  ███ ███  ██   ██    ██    ███████
-```
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Flask-3.0+-000000?style=flat-square&logo=flask&logoColor=white"/>
+  <img src="https://img.shields.io/badge/MariaDB-003545?style=flat-square&logo=mariadb&logoColor=white"/>
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square"/>
+</p>
 
-## The Quantum Trinity
+---
 
-| Layer               | Algorithm       | NIST Standard     | Purpose                                    |
-| ------------------- | --------------- | ----------------- | ------------------------------------------ |
-| **Identity**        | Dilithium3      | FIPS 204 (ML-DSA) | Digital signatures for ticket authenticity |
-| **Confidentiality** | Kyber512        | FIPS 203 (ML-KEM) | Hybrid encryption for sensitive data       |
-| **Randomness**      | QRNG Simulation | N/A               | Quantum-grade entropy for booking IDs      |
+## 🛡️ The Quantum Trinity
 
-## Architecture (Split-Stack)
+<table align="center">
+<tr>
+<td align="center" width="33%">
+<img src="https://img.shields.io/badge/🔐-Dilithium3-blueviolet?style=for-the-badge"/>
+<br/><b>Digital Signatures</b>
+<br/><sub>FIPS 204 (ML-DSA)</sub>
+<br/><sub>Unforgeable ticket authenticity</sub>
+</td>
+<td align="center" width="33%">
+<img src="https://img.shields.io/badge/🔑-Kyber512-ff69b4?style=for-the-badge"/>
+<br/><b>Key Encapsulation</b>
+<br/><sub>FIPS 203 (ML-KEM)</sub>
+<br/><sub>Quantum-safe encryption</sub>
+</td>
+<td align="center" width="33%">
+<img src="https://img.shields.io/badge/🎲-QRNG-00d4ff?style=for-the-badge"/>
+<br/><b>Entropy Source</b>
+<br/><sub>Hadamard Simulation</sub>
+<br/><sub>True random booking IDs</sub>
+</td>
+</tr>
+</table>
+
+---
+
+## 🏗️ Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                      FRONTEND (HTML/CSS/JS)                             │
-│                 Served on Apache (Port 80) or Python (Port 8080)        │
+│  🌐  FRONTEND (HTML/CSS/JS)                                             │
+│      Cyberpunk UI • Port 80/8080                                        │
 └────────────────────────────────────┬────────────────────────────────────┘
-                                     │ AJAX/Fetch (CORS)
+                                     │ CORS
                                      ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                      PYTHON FLASK BACKEND (Port 5000)                   │
-│        Quantum Trinity: Kyber + Dilithium + QRNG Simulation             │
+│  🐍  PYTHON FLASK BACKEND                                               │
+│      Quantum Trinity • Port 5000                                        │
 └────────────────────────────────────┬────────────────────────────────────┘
                                      │
                                      ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                      MariaDB / MySQL (Port 3306)                        │
-│             InnoDB Engine with Row-Level Locking (FOR UPDATE)           │
+│  🗄️  MariaDB / MySQL                                                    │
+│      InnoDB • Row-Level Locking • Port 3306                             │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🪟 Windows Setup (XAMPP)
+## 🚀 Quick Start
 
-### Prerequisites
+```bash
+# Clone
+git clone <repository-url> && cd quantum-airline
 
-- [XAMPP](https://www.apachefriends.org/) (includes Apache + MariaDB)
-- [Python 3.10+](https://www.python.org/downloads/)
-- Git (optional)
-
-### Quick Start (PowerShell)
-
-```powershell
-# Clone the repository
-git clone <repository-url>
-cd quantum-airline
-
-# Run the setup script
-.\scripts\setup-windows.ps1
-```
-
-### Manual Setup
-
-#### Step 1: Install Python Dependencies
-
-```powershell
-# Create virtual environment (recommended)
-python -m venv venv
-.\venv\Scripts\Activate.ps1
-
-# Install packages
-pip install flask flask-cors mysql-connector-python cryptography
-```
-
-#### Step 2: Start XAMPP Services
-
-1. Open **XAMPP Control Panel**
-2. Start **Apache** (optional, for serving frontend)
-3. Start **MySQL** (required for database)
-
-#### Step 3: Initialize Database
-
-```powershell
-# With venv activated
+# Setup (choose your OS below)
+# Initialize database
 python init_db.py
+
+# Run
+./run_system.sh          # Linux
+.\scripts\run-windows.ps1 # Windows
 ```
 
-#### Step 4: Start the Application
-
-```powershell
-# Option 1: Use the run script
-.\scripts\run-windows.ps1
-
-# Option 2: Manual start
-# Terminal 1 - Backend
-python server.py
-
-# Terminal 2 - Frontend
-cd public
-python -m http.server 8080
-```
-
-#### Step 5: Open Browser
-
-Navigate to: **http://localhost:8080**
+**Open:** http://localhost:8080
 
 ---
 
-## 🐧 Linux Setup (Arch/Ubuntu/Debian)
+## 🪟 Windows Setup
 
-### Prerequisites
+<details>
+<summary><b>📋 Prerequisites</b></summary>
+
+- [XAMPP](https://www.apachefriends.org/) (Apache + MariaDB)
+- [Python 3.10+](https://www.python.org/downloads/)
+- Git (optional)
+
+</details>
+
+### ⚡ Automated Setup
+
+```powershell
+.\scripts\setup-windows.ps1
+python init_db.py
+.\scripts\run-windows.ps1
+```
+
+### 🔧 Manual Setup
+
+```powershell
+# 1️⃣ Create virtual environment
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+
+# 2️⃣ Install dependencies
+pip install flask flask-cors mysql-connector-python cryptography
+
+# 3️⃣ Start XAMPP MySQL from Control Panel
+
+# 4️⃣ Initialize database
+python init_db.py
+
+# 5️⃣ Start servers
+python server.py                           # Terminal 1
+cd public; python -m http.server 8080      # Terminal 2
+```
+
+---
+
+## 🐧 Linux Setup
+
+<details>
+<summary><b>📋 Prerequisites</b></summary>
 
 - Python 3.10+
 - MariaDB or MySQL
 - Git (optional)
 
-### Quick Start (Bash)
+</details>
+
+### ⚡ Automated Setup
 
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd quantum-airline
-
-# Make scripts executable
 chmod +x scripts/*.sh run_system.sh
-
-# Run setup
 ./scripts/setup-linux.sh
+python init_db.py
+./run_system.sh
 ```
 
-### Manual Setup
-
-#### Arch Linux
+### 🔧 Arch Linux
 
 ```bash
-# Install system packages
 yay -S python-flask python-flask-cors python-mysql-connector python-cryptography mariadb
-
-# Initialize MariaDB (if first time)
-sudo mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 sudo systemctl start mariadb
-sudo systemctl enable mariadb
-
-# Initialize database
 python init_db.py
-
-# Run the application
 ./run_system.sh
 ```
 
-#### Ubuntu/Debian
+### 🔧 Ubuntu/Debian
 
 ```bash
-# Install Python and pip
-sudo apt update
 sudo apt install python3 python3-pip python3-venv mariadb-server
-
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate
-
-# Install Python packages
+python3 -m venv venv && source venv/bin/activate
 pip install flask flask-cors mysql-connector-python cryptography
-
-# Start MariaDB
 sudo systemctl start mariadb
-
-# Initialize database
 python init_db.py
-
-# Run the application
 ./run_system.sh
 ```
-
-#### Step: Open Browser
-
-Navigate to: **http://localhost:8080**
 
 ---
 
-## API Endpoints
+## 📡 API Endpoints
 
-| Endpoint                 | Method | Description                    |
-| ------------------------ | ------ | ------------------------------ |
-| `/api/health`            | GET    | Service health check           |
-| `/api/flights`           | GET    | List all available flights     |
-| `/api/seats/<flight_id>` | GET    | Get seat map for a flight      |
-| `/api/book`              | POST   | Create quantum-secured booking |
-| `/api/verify`            | POST   | Verify ticket signature        |
+| Endpoint          | Method | Description         |
+| :---------------- | :----: | :------------------ |
+| `/api/health`     | `GET`  | 🩺 Health check     |
+| `/api/flights`    | `GET`  | ✈️ List flights     |
+| `/api/seats/<id>` | `GET`  | 💺 Seat map         |
+| `/api/book`       | `POST` | 🎫 Book ticket      |
+| `/api/verify`     | `POST` | ✅ Verify signature |
 
-### Booking Request Example
+<details>
+<summary><b>📝 Request/Response Examples</b></summary>
+
+**Book Request:**
 
 ```json
 POST /api/book
 {
-    "flight_id": 1,
-    "row": "5",
-    "col": "A",
-    "name": "John Quantum",
-    "passport": "AB1234567"
+  "flight_id": 1,
+  "row": "5", "col": "A",
+  "name": "John Quantum",
+  "passport": "AB1234567"
 }
 ```
 
-### Booking Response Example
+**Book Response:**
 
 ```json
 {
   "success": true,
   "booking": {
     "booking_ref": "QREF-X7Z9-A2B4-C6D8",
-    "passenger_name": "John Quantum",
     "seat": { "label": "5A", "class": "economy" }
   },
   "quantum_security": {
     "signature": { "algorithm": "Dilithium3-Simulation" },
-    "encryption": { "algorithm": "Kyber512-Simulation (AES-256-GCM)" }
+    "encryption": { "algorithm": "Kyber512-AES256GCM" }
   }
 }
 ```
 
+</details>
+
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 quantum-airline/
-├── server.py                  # Flask backend (Port 5000)
-├── init_db.py                 # Database initialization script
-├── run_system.sh              # Linux startup script
-├── schema_mariadb.sql         # MariaDB schema + seed data
-├── requirements.txt           # Python dependencies
-├── quantum_service/           # Quantum simulation modules
-│   ├── entropy.py             # QRNG simulation
-│   ├── encryptor.py           # Kyber512 + AES-256-GCM
-│   ├── signer.py              # Dilithium3 signatures
-│   └── decryptor.py           # Data decryption
-├── public/                    # Frontend assets
-│   ├── index.html             # Main page
-│   ├── css/style.css          # Cyberpunk styling
-│   └── js/app.js              # Frontend logic
-├── scripts/                   # Setup & run scripts
-│   ├── setup-windows.ps1      # Windows setup
-│   ├── run-windows.ps1        # Windows run
-│   ├── setup-linux.sh         # Linux setup
-│   └── run-linux.sh           # Linux run
-└── README.md                  # This file
+├── 🐍 server.py              # Flask backend
+├── 🗄️ schema_mariadb.sql     # Database schema
+├── 🔧 init_db.py             # DB initializer
+├── 🚀 run_system.sh          # Linux launcher
+├── 📦 requirements.txt       # Python deps
+├── 🔬 quantum_service/       # PQC modules
+│   ├── entropy.py            # QRNG
+│   ├── encryptor.py          # Kyber512
+│   ├── signer.py             # Dilithium3
+│   └── decryptor.py          # Decryption
+├── 🌐 public/                # Frontend
+│   ├── index.html
+│   ├── css/style.css
+│   └── js/app.js
+└── 📜 scripts/               # Setup scripts
+    ├── setup-windows.ps1
+    ├── run-windows.ps1
+    ├── setup-linux.sh
+    └── run-linux.sh
 ```
 
 ---
 
-## Troubleshooting
+## 🔥 Troubleshooting
 
-| Issue                           | Solution                                                  |
-| ------------------------------- | --------------------------------------------------------- |
-| **Connection Error** in browser | Ensure Flask backend is running on port 5000              |
-| **Database connection failed**  | Start MariaDB/MySQL service                               |
-| **CORS error** in console       | Check `server.py` CORS origins include your frontend port |
-| **Module not found**            | Activate virtual environment or install system packages   |
-
----
-
-## Security Note
-
-This is a **demonstration platform** using simulated quantum cryptography. For production:
-
-- Install `liboqs-python` for real PQC algorithms
-- Add authentication and rate limiting
-- Enable HTTPS
-- Implement audit logging
+| Issue               | Solution                          |
+| :------------------ | :-------------------------------- |
+| 🔴 Connection Error | Start Flask backend on port 5000  |
+| 🔴 Database failed  | Start MariaDB/MySQL service       |
+| 🔴 CORS error       | Check `server.py` origins list    |
+| 🔴 Module not found | Activate venv or install packages |
 
 ---
 
-## License
+## ⚠️ Security Note
 
-MIT License - See LICENSE file for details.
+> This is a **demo platform** using simulated PQC. For production:
+>
+> - Install `liboqs-python` for real quantum algorithms
+> - Enable HTTPS and authentication
+> - Add rate limiting and audit logs
 
-## Acknowledgments
+---
 
-- [Open Quantum Safe (liboqs)](https://openquantumsafe.org/)
-- [NIST Post-Quantum Cryptography](https://csrc.nist.gov/projects/post-quantum-cryptography)
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=100&section=footer"/>
+</p>
+
+<p align="center">
+  <sub>Built with 💜 using Post-Quantum Cryptography</sub>
+  <br/>
+  <a href="https://openquantumsafe.org/">liboqs</a> •
+  <a href="https://csrc.nist.gov/projects/post-quantum-cryptography">NIST PQC</a> •
+  <a href="https://flask.palletsprojects.com/">Flask</a>
+</p>

@@ -44,6 +44,7 @@ class BookingRepository
                 pqc_signature,
                 pqc_public_key,
                 ticket_data_hash,
+                ticket_data_json,
                 mock_mode,
                 signature_algorithm,
                 encryption_algorithm
@@ -59,6 +60,7 @@ class BookingRepository
                 :pqc_signature,
                 :pqc_public_key,
                 :ticket_data_hash,
+                :ticket_data_json,
                 :mock_mode,
                 :signature_algorithm,
                 :encryption_algorithm
@@ -79,6 +81,7 @@ class BookingRepository
             ':pqc_signature' => $data['pqc_signature'],
             ':pqc_public_key' => $data['pqc_public_key'],
             ':ticket_data_hash' => $data['ticket_data_hash'],
+            ':ticket_data_json' => $data['ticket_data_json'] ?? null,
             ':mock_mode' => $data['mock_mode'] ? 'true' : 'false',
             ':signature_algorithm' => $data['signature_algorithm'] ?? 'Dilithium3',
             ':encryption_algorithm' => $data['encryption_algorithm'] ?? 'Kyber512-AES256GCM',

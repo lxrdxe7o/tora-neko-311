@@ -3,132 +3,208 @@
 A next-generation airline booking platform integrating **Post-Quantum Cryptography (PQC)** to protect against "Harvest Now, Decrypt Later" attacks.
 
 ```
- ██████  ██    ██  █████  ███    ██ ████████ ██    ██ ███    ███ 
-██    ██ ██    ██ ██   ██ ████   ██    ██    ██    ██ ████  ████ 
-██    ██ ██    ██ ███████ ██ ██  ██    ██    ██    ██ ██ ████ ██ 
-██ ▄▄ ██ ██    ██ ██   ██ ██  ██ ██    ██    ██    ██ ██  ██  ██ 
- ██████   ██████  ██   ██ ██   ████    ██     ██████  ██      ██ 
-    ▀▀                                                           
-          █████  ██ ██████  ██     ██  █████  ██    ██ ███████   
-         ██   ██ ██ ██   ██ ██     ██ ██   ██  ██  ██  ██        
-         ███████ ██ ██████  ██  █  ██ ███████   ████   ███████   
-         ██   ██ ██ ██   ██ ██ ███ ██ ██   ██    ██         ██   
-         ██   ██ ██ ██   ██  ███ ███  ██   ██    ██    ███████   
+ ██████  ██    ██  █████  ███    ██ ████████ ██    ██ ███    ███
+██    ██ ██    ██ ██   ██ ████   ██    ██    ██    ██ ████  ████
+██    ██ ██    ██ ███████ ██ ██  ██    ██    ██    ██ ██ ████ ██
+██ ▄▄ ██ ██    ██ ██   ██ ██  ██ ██    ██    ██    ██ ██  ██  ██
+ ██████   ██████  ██   ██ ██   ████    ██     ██████  ██      ██
+    ▀▀
+          █████  ██ ██████  ██     ██  █████  ██    ██ ███████
+         ██   ██ ██ ██   ██ ██     ██ ██   ██  ██  ██  ██
+         ███████ ██ ██████  ██  █  ██ ███████   ████   ███████
+         ██   ██ ██ ██   ██ ██ ███ ██ ██   ██    ██         ██
+         ██   ██ ██ ██   ██  ███ ███  ██   ██    ██    ███████
 ```
 
 ## The Quantum Trinity
 
-This system implements three layers of quantum-resistant security:
+| Layer               | Algorithm       | NIST Standard     | Purpose                                    |
+| ------------------- | --------------- | ----------------- | ------------------------------------------ |
+| **Identity**        | Dilithium3      | FIPS 204 (ML-DSA) | Digital signatures for ticket authenticity |
+| **Confidentiality** | Kyber512        | FIPS 203 (ML-KEM) | Hybrid encryption for sensitive data       |
+| **Randomness**      | QRNG Simulation | N/A               | Quantum-grade entropy for booking IDs      |
 
-| Layer | Algorithm | NIST Standard | Purpose |
-|-------|-----------|---------------|---------|
-| **Identity** | Dilithium3 | FIPS 204 (ML-DSA) | Digital signatures for ticket authenticity |
-| **Confidentiality** | Kyber512 | FIPS 203 (ML-KEM) | Hybrid encryption for sensitive data |
-| **Randomness** | QRNG Simulation | N/A | Quantum-grade entropy for booking IDs |
-
-## Architecture
+## Architecture (Split-Stack)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                           FRONTEND (HTML/CSS/JS)                        │
-│                     Dark "Cyberpunk" Themed UI                          │
+│                      FRONTEND (HTML/CSS/JS)                             │
+│                 Served on Apache (Port 80) or Python (Port 8080)        │
 └────────────────────────────────────┬────────────────────────────────────┘
-                                     │ AJAX/Fetch
+                                     │ AJAX/Fetch (CORS)
                                      ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                         PHP BACKEND (api/)                              │
-│         BookingService → QuantumBridge → Python Microservice            │
-└────────────────────────────────────┬──────────────────────┬─────────────┘
-                                     │                      │
-                                     ▼                      ▼
-┌────────────────────────────────────────────┐  ┌─────────────────────────┐
-│         PostgreSQL 14+                     │  │   QUANTUM SERVICE       │
-│   ACID Transactions + Row-Level Locking    │  │   (Python + liboqs)     │
-└────────────────────────────────────────────┘  └─────────────────────────┘
+│                      PYTHON FLASK BACKEND (Port 5000)                   │
+│        Quantum Trinity: Kyber + Dilithium + QRNG Simulation             │
+└────────────────────────────────────┬────────────────────────────────────┘
+                                     │
+                                     ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      MariaDB / MySQL (Port 3306)                        │
+│             InnoDB Engine with Row-Level Locking (FOR UPDATE)           │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
-## Prerequisites
+---
 
-- **PHP** 8.1+ with extensions: `pdo_pgsql`, `json`, `mbstring`
-- **PostgreSQL** 14+
-- **Python** 3.10+
-- **Optional**: `liboqs-python` for real PQC (falls back to mock mode)
-- **Optional**: `qiskit` for quantum circuit simulation
+## 🪟 Windows Setup (XAMPP)
 
-## Quick Start
+### Prerequisites
 
-### 1. Clone & Setup
+- [XAMPP](https://www.apachefriends.org/) (includes Apache + MariaDB)
+- [Python 3.10+](https://www.python.org/downloads/)
+- Git (optional)
 
-```bash
+### Quick Start (PowerShell)
+
+```powershell
+# Clone the repository
 git clone <repository-url>
 cd quantum-airline
 
-# Make setup script executable
-chmod +x setup.sh
-
-# Run setup (creates database, installs dependencies)
-./setup.sh
+# Run the setup script
+.\scripts\setup-windows.ps1
 ```
 
-### 2. Manual Setup (Alternative)
+### Manual Setup
+
+#### Step 1: Install Python Dependencies
+
+```powershell
+# Create virtual environment (recommended)
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+
+# Install packages
+pip install flask flask-cors mysql-connector-python cryptography
+```
+
+#### Step 2: Start XAMPP Services
+
+1. Open **XAMPP Control Panel**
+2. Start **Apache** (optional, for serving frontend)
+3. Start **MySQL** (required for database)
+
+#### Step 3: Initialize Database
+
+```powershell
+# With venv activated
+python init_db.py
+```
+
+#### Step 4: Start the Application
+
+```powershell
+# Option 1: Use the run script
+.\scripts\run-windows.ps1
+
+# Option 2: Manual start
+# Terminal 1 - Backend
+python server.py
+
+# Terminal 2 - Frontend
+cd public
+python -m http.server 8080
+```
+
+#### Step 5: Open Browser
+
+Navigate to: **http://localhost:8080**
+
+---
+
+## 🐧 Linux Setup (Arch/Ubuntu/Debian)
+
+### Prerequisites
+
+- Python 3.10+
+- MariaDB or MySQL
+- Git (optional)
+
+### Quick Start (Bash)
 
 ```bash
-# Create PostgreSQL database
-createdb quantum_airline
+# Clone the repository
+git clone <repository-url>
+cd quantum-airline
 
-# Run schema
-psql -d quantum_airline -f schema.sql
+# Make scripts executable
+chmod +x scripts/*.sh run_system.sh
 
-# Install Python dependencies
-cd quantum_service
-pip install -r requirements.txt
-cd ..
+# Run setup
+./scripts/setup-linux.sh
 ```
 
-### 3. Configure Database
+### Manual Setup
 
-Edit `backend/config/database.php` with your credentials:
-
-```php
-return [
-    'host' => 'localhost',
-    'port' => 5432,
-    'dbname' => 'quantum_airline',
-    'user' => 'postgres',
-    'password' => 'your_password'
-];
-```
-
-### 4. Start the Server
+#### Arch Linux
 
 ```bash
-# Using PHP built-in server (development)
-php -S localhost:8000 -t public
+# Install system packages
+yay -S python-flask python-flask-cors python-mysql-connector python-cryptography mariadb
 
-# Or configure Apache/Nginx to point to public/
+# Initialize MariaDB (if first time)
+sudo mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+
+# Initialize database
+python init_db.py
+
+# Run the application
+./run_system.sh
 ```
 
-### 5. Access the Application
+#### Ubuntu/Debian
 
-Open `http://localhost:8000` in your browser.
+```bash
+# Install Python and pip
+sudo apt update
+sudo apt install python3 python3-pip python3-venv mariadb-server
+
+# Create virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install Python packages
+pip install flask flask-cors mysql-connector-python cryptography
+
+# Start MariaDB
+sudo systemctl start mariadb
+
+# Initialize database
+python init_db.py
+
+# Run the application
+./run_system.sh
+```
+
+#### Step: Open Browser
+
+Navigate to: **http://localhost:8080**
+
+---
 
 ## API Endpoints
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/flights.php` | GET | List all available flights |
-| `/api/seats.php?flight_id=X` | GET | Get seat map for a flight |
-| `/api/book.php` | POST | Create quantum-secured booking |
-| `/api/verify.php` | POST | Verify ticket signature |
+| Endpoint                 | Method | Description                    |
+| ------------------------ | ------ | ------------------------------ |
+| `/api/health`            | GET    | Service health check           |
+| `/api/flights`           | GET    | List all available flights     |
+| `/api/seats/<flight_id>` | GET    | Get seat map for a flight      |
+| `/api/book`              | POST   | Create quantum-secured booking |
+| `/api/verify`            | POST   | Verify ticket signature        |
 
 ### Booking Request Example
 
 ```json
-POST /api/book.php
+POST /api/book
 {
-    "seat_id": 15,
-    "passenger_name": "John Quantum",
-    "passport_number": "AB1234567"
+    "flight_id": 1,
+    "row": "5",
+    "col": "A",
+    "name": "John Quantum",
+    "passport": "AB1234567"
 }
 ```
 
@@ -136,132 +212,76 @@ POST /api/book.php
 
 ```json
 {
-    "success": true,
-    "booking": {
-        "booking_ref": "QX7A9B2C",
-        "flight": "QA-101",
-        "seat": "4C",
-        "passenger": "John Quantum"
-    },
-    "quantum_security": {
-        "signature_algorithm": "Dilithium3",
-        "encryption_algorithm": "Kyber512-AES256GCM",
-        "entropy_source": "QRNG-Hadamard",
-        "signature_preview": "3a4b5c6d..."
-    }
+  "success": true,
+  "booking": {
+    "booking_ref": "QREF-X7Z9-A2B4-C6D8",
+    "passenger_name": "John Quantum",
+    "seat": { "label": "5A", "class": "economy" }
+  },
+  "quantum_security": {
+    "signature": { "algorithm": "Dilithium3-Simulation" },
+    "encryption": { "algorithm": "Kyber512-Simulation (AES-256-GCM)" }
+  }
 }
 ```
 
-## Security Deep Dive
-
-### Why Post-Quantum Cryptography?
-
-Current encryption (RSA, ECDSA) will be broken by quantum computers using Shor's algorithm. Adversaries can harvest encrypted data today and decrypt it when quantum computers mature ("Harvest Now, Decrypt Later").
-
-### Dilithium3 (Digital Signatures)
-
-- **Purpose**: Ensures ticket authenticity - no one can forge a valid ticket
-- **Security Level**: NIST Level 3 (~128-bit classical, ~128-bit quantum)
-- **Based On**: Module-LWE and Module-SIS lattice problems
-- **NIST Status**: FIPS 204 (ML-DSA) - Standardized August 2024
-
-### Kyber512 (Key Encapsulation)
-
-- **Purpose**: Securely exchange symmetric keys for data encryption
-- **Workflow**: 
-  1. Generate Kyber keypair
-  2. Encapsulate to produce shared secret
-  3. Derive AES-256 key from shared secret
-  4. Encrypt sensitive data (passport numbers)
-- **Security Level**: NIST Level 1 (~128-bit)
-- **NIST Status**: FIPS 203 (ML-KEM) - Standardized August 2024
-
-### QRNG Simulation
-
-- **Purpose**: Generate unpredictable booking reference IDs
-- **Method**: Simulates Hadamard gate measurements on qubits
-- **Fallback**: Uses `secrets.token_bytes()` (cryptographically secure PRNG)
-
-## Concurrency & ACID Compliance
-
-The system prevents double-booking using PostgreSQL's `SELECT ... FOR UPDATE`:
-
-```sql
-BEGIN;
-SELECT * FROM seats WHERE id = $1 FOR UPDATE;  -- Acquires row lock
--- Check if seat is available
--- Perform quantum operations
--- Insert booking
-UPDATE seats SET is_booked = true WHERE id = $1;
-COMMIT;
-```
-
-### Stress Test
-
-Run the included stress test to verify concurrency handling:
-
-```bash
-php tests/stress_test.php
-```
-
-This simulates 20 concurrent users attempting to book the same seat. Expected result: 1 success, 19 failures.
-
-## Mock Mode
-
-If `liboqs` is not installed, the system automatically falls back to mock mode:
-
-| Component | Real Mode | Mock Mode |
-|-----------|-----------|-----------|
-| Dilithium3 | `oqs.Signature` | HMAC-SHA512 |
-| Kyber512 | `oqs.KeyEncapsulation` | `secrets.token_bytes` |
-| QRNG | Qiskit Hadamard circuit | `secrets.token_hex` |
-
-Mock mode is **clearly indicated** in API responses and the UI.
+---
 
 ## Project Structure
 
 ```
 quantum-airline/
-├── schema.sql                 # Database schema + seed data
-├── setup.sh                   # Automated setup script
-├── quantum_service/           # Python PQC microservice
-│   ├── config.py              # Mock mode detection
+├── server.py                  # Flask backend (Port 5000)
+├── init_db.py                 # Database initialization script
+├── run_system.sh              # Linux startup script
+├── schema_mariadb.sql         # MariaDB schema + seed data
+├── requirements.txt           # Python dependencies
+├── quantum_service/           # Quantum simulation modules
 │   ├── entropy.py             # QRNG simulation
 │   ├── encryptor.py           # Kyber512 + AES-256-GCM
 │   ├── signer.py              # Dilithium3 signatures
 │   └── decryptor.py           # Data decryption
-├── backend/                   # PHP application
-│   ├── config/database.php    # DB configuration
-│   ├── core/                  # Core classes
-│   ├── services/              # Business logic
-│   └── repositories/          # Data access
-├── api/                       # REST endpoints
 ├── public/                    # Frontend assets
-│   ├── index.html
-│   ├── css/style.css
-│   └── js/app.js
-└── tests/                     # Test suite
-    └── stress_test.php
+│   ├── index.html             # Main page
+│   ├── css/style.css          # Cyberpunk styling
+│   └── js/app.js              # Frontend logic
+├── scripts/                   # Setup & run scripts
+│   ├── setup-windows.ps1      # Windows setup
+│   ├── run-windows.ps1        # Windows run
+│   ├── setup-linux.sh         # Linux setup
+│   └── run-linux.sh           # Linux run
+└── README.md                  # This file
 ```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- [Open Quantum Safe (liboqs)](https://openquantumsafe.org/) - PQC library
-- [NIST Post-Quantum Cryptography](https://csrc.nist.gov/projects/post-quantum-cryptography) - Standards
-- [Qiskit](https://qiskit.org/) - Quantum computing framework
 
 ---
 
-**Note**: This is a demonstration platform. For production use, additional security measures (authentication, rate limiting, input validation, audit logging) should be implemented.
+## Troubleshooting
+
+| Issue                           | Solution                                                  |
+| ------------------------------- | --------------------------------------------------------- |
+| **Connection Error** in browser | Ensure Flask backend is running on port 5000              |
+| **Database connection failed**  | Start MariaDB/MySQL service                               |
+| **CORS error** in console       | Check `server.py` CORS origins include your frontend port |
+| **Module not found**            | Activate virtual environment or install system packages   |
+
+---
+
+## Security Note
+
+This is a **demonstration platform** using simulated quantum cryptography. For production:
+
+- Install `liboqs-python` for real PQC algorithms
+- Add authentication and rate limiting
+- Enable HTTPS
+- Implement audit logging
+
+---
+
+## License
+
+MIT License - See LICENSE file for details.
+
+## Acknowledgments
+
+- [Open Quantum Safe (liboqs)](https://openquantumsafe.org/)
+- [NIST Post-Quantum Cryptography](https://csrc.nist.gov/projects/post-quantum-cryptography)

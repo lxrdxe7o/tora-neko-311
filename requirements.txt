@@ -1,0 +1,15 @@
+# Split-Stack Quantum Booking System - Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# Flask Web Framework
+flask>=3.0.0
+flask-cors>=4.0.0
+
+# MariaDB/MySQL Database Connector
+mysql-connector-python>=8.2.0
+
+# Cryptography (for AES-GCM encryption)
+cryptography>=41.0.0
+
+# Optional: For real Post-Quantum Cryptography (if liboqs is installed)
+# liboqs-python  # Requires liboqs C library to be installed first

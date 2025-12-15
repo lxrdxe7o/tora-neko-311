@@ -1,113 +1,65 @@
-<svg viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
     <defs>
-        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
-            <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-        </filter>
+        <linearGradient id="text-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#00f260;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#0575E6;stop-opacity:1" />
+        </linearGradient>
+
+        <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#00f260;stop-opacity:0.2" />
+            <stop offset="100%" style="stop-color:#0575E6;stop-opacity:0.2" />
+        </linearGradient>
 
         <style>
             .bg { fill: #0a0a0f; }
             
             .title {
-                font-family: 'Verdana', 'Arial', sans-serif;
-                font-weight: 900;
-                font-size: 60px;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                font-weight: 800;
+                font-size: 56px;
+                text-anchor: middle;
+                letter-spacing: -2px;
+                fill: url(#text-gradient);
+            }
+            
+            .subtitle {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                font-weight: 500;
+                font-size: 14px;
                 text-anchor: middle;
                 letter-spacing: 4px;
-            }
-            
-            .word-quantum {
-                fill: #FFD700;
-                filter: url(#glow);
-                animation: pulse-gold 3s infinite alternate;
-            }
-            
-            .word-airways {
-                fill: #00FFFF;
-                filter: url(#glow);
-                animation: pulse-cyan 3s infinite alternate-reverse;
+                fill: #ffffff;
+                opacity: 0.7;
+                text-transform: uppercase;
             }
 
-            .tag-group {
-                font-family: 'Courier New', monospace;
-                font-size: 14px;
-                font-weight: bold;
+            .wave {
+                fill: url(#wave-gradient);
             }
 
-            .tag-rect {
-                fill: transparent;
-                stroke-width: 2;
-                rx: 5;
-            }
+            .wave1 { animation: wave 8s linear infinite; }
+            .wave2 { animation: wave 12s linear infinite reverse; opacity: 0.5; }
+            .wave3 { animation: wave 10s linear infinite; opacity: 0.3; }
 
-            .tag-text {
-                text-anchor: middle;
-            }
-
-            .tag-secure .tag-rect { stroke: #FFD700; filter: url(#glow); }
-            .tag-secure .tag-text { fill: #FFD700; }
-            
-            .tag-fast .tag-rect { stroke: #bd93f9; filter: url(#glow); }
-            .tag-fast .tag-text { fill: #bd93f9; }
-            
-            .tag-pqc .tag-rect { stroke: #50fa7b; filter: url(#glow); }
-            .tag-pqc .tag-text { fill: #50fa7b; } 
-            
-            .tag-future .tag-rect { stroke: #ff79c6; filter: url(#glow); }
-            .tag-future .tag-text { fill: #ff79c6; }
-
-            @keyframes pulse-gold {
-                0% { filter: drop-shadow(0 0 2px #FFD700); }
-                100% { filter: drop-shadow(0 0 8px #FFD700); }
-            }
-            
-            @keyframes pulse-cyan {
-                0% { filter: drop-shadow(0 0 2px #00FFFF); }
-                100% { filter: drop-shadow(0 0 8px #00FFFF); }
-            }
-            
-            .float { animation: float 6s ease-in-out infinite; }
-            @keyframes float {
-                0% { transform: translateY(0px); }
-                50% { transform: translateY(-8px); }
-                100% { transform: translateY(0px); }
+            @keyframes wave {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
             }
         </style>
     </defs>
 
     <rect width="100%" height="100%" class="bg" rx="15" />
 
-    <!-- Centered Title using one group -->
-    <g transform="translate(400, 110)" class="float">
-        <text class="title">
-            <tspan class="word-quantum" x="-150" dy="0">QUANTUM</tspan>
-            <tspan class="word-airways" x="180" dy="0">AIRWAYS</tspan>
-        </text>
+    <!-- Waves Background -->
+    <!-- Simplified wave paths that repeat for looping -->
+    <g transform="translate(0, 120)">
+        <path class="wave wave1" d="M0,0 C150,50 350,-50 600,0 C850,50 1050,-50 1200,0 C1450,50 1650,-50 1800,0 V100 H0 Z" />
+        <path class="wave wave2" d="M-100,10 C100,60 300,-40 500,10 C750,60 950,-40 1150,10 C1400,60 1600,-40 1850,10 V100 H-100 Z" />
     </g>
 
-    <!-- Tags Row -->
-    <g transform="translate(400, 200)" class="tag-group">
-        <g class="tag-secure" transform="translate(-210, 0)">
-            <rect x="-60" y="-15" width="120" height="30" class="tag-rect"/>
-            <text x="0" y="5" class="tag-text">SECURE</text>
-        </g>
-        
-        <g class="tag-fast" transform="translate(-70, 0)">
-            <rect x="-60" y="-15" width="120" height="30" class="tag-rect"/>
-            <text x="0" y="5" class="tag-text">FAST</text>
-        </g>
-
-        <g class="tag-pqc" transform="translate(70, 0)">
-            <rect x="-60" y="-15" width="120" height="30" class="tag-rect"/>
-            <text x="0" y="5" class="tag-text">PQC</text>
-        </g>
-
-        <g class="tag-future" transform="translate(210, 0)">
-            <rect x="-60" y="-15" width="120" height="30" class="tag-rect"/>
-            <text x="0" y="5" class="tag-text">FUTURE</text>
-        </g>
+    <!-- Content -->
+    <g transform="translate(400, 100)">
+        <text y="0" class="title">QUANTUM AIRWAYS</text>
+        <text y="35" class="subtitle">Secure • Fast • Post-Quantum</text>
     </g>
 </svg>

@@ -2,7 +2,7 @@
 
 A quantum-secure airline booking system simulating Post-Quantum Cryptography (PQC) to protect against future quantum threats.
 
-![Quantum Airways](frontend/public/assets/icons/flight-plane.svg)
+![Quantum Airways Header](frontend/public/assets/header.svg)
 
 ## 🚀 Quick Start (Docker)
 
@@ -92,3 +92,5 @@ The backend volume is mounted. Changes to `server.py` will trigger a reload (Fla
 ## 📄 License
 
 MIT
+
+![Footer Credits](frontend/public/assets/footer.svg)

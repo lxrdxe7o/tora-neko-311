@@ -1,0 +1,140 @@
+<svg width="100%" height="250" viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg">
+    <!-- Definitions for Filters and Gradients -->
+    <defs>
+        <!-- Glow Filter -->
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+        
+        <!-- Stronger Glow for Hover/Animation -->
+        <filter id="strong-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+            <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Audiowide&amp;family=JetBrains+Mono:wght@700&amp;display=swap');
+            
+            .bg { fill: #0a0a0f; }
+            
+            .title {
+                font-family: 'Audiowide', cursive;
+                font-size: 64px;
+                text-anchor: middle;
+            }
+            
+            .word-quantum {
+                fill: #FFD700;
+                filter: url(#glow);
+                animation: pulse-gold 3s infinite alternate;
+            }
+            
+            .word-airways {
+                fill: #00FFFF;
+                filter: url(#glow);
+                animation: pulse-cyan 3s infinite alternate-reverse;
+            }
+
+            .tag-group {
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 14px;
+                font-weight: bold;
+            }
+
+            .tag-rect {
+                fill: transparent;
+                stroke-width: 2;
+                rx: 5;
+            }
+
+            .tag-text {
+                text-anchor: middle;
+                fill: #fff;
+            }
+
+            /* Tag specific colors */
+            .tag-secure .tag-rect { stroke: #FFD700; filter: url(#glow); }
+            .tag-secure .tag-text { fill: #FFD700; }
+            
+            .tag-fast .tag-rect { stroke: #bd93f9; filter: url(#glow); }
+            .tag-fast .tag-text { fill: #bd93f9; }
+            
+            .tag-pqc .tag-rect { stroke: #50fa7b; filter: url(#glow); }
+            .tag-pqc .tag-text { fill: #50fa7b; } 
+            
+            .tag-future .tag-rect { stroke: #ff79c6; filter: url(#glow); }
+            .tag-future .tag-text { fill: #ff79c6; }
+
+            /* Animations */
+            @keyframes pulse-gold {
+                0% { filter: drop-shadow(0 0 5px #FFD700); }
+                100% { filter: drop-shadow(0 0 15px #FFD700); }
+            }
+            
+            @keyframes pulse-cyan {
+                0% { filter: drop-shadow(0 0 5px #00FFFF); }
+                100% { filter: drop-shadow(0 0 15px #00FFFF); }
+            }
+            
+            .float { animation: float 6s ease-in-out infinite; }
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-10px); }
+                100% { transform: translateY(0px); }
+            }
+        </style>
+    </defs>
+
+    <!-- Background -->
+    <rect width="100%" height="100%" class="bg" rx="15" />
+
+    <!-- Main Title -->
+    <g transform="translate(400, 100)" class="float">
+        <text x="-20" y="0" class="title word-quantum">QUANTUM</text>
+        <text x="280" y="0" class="title word-airways">AIRWAYS</text>
+    </g>
+    <!-- Adjust text positions manually to center them together since they are separate elements for coloring -->
+    <!-- Re-centering visually: QUANTUM width approx 360, AIRWAYS approx 340. Total 700. -->
+    <!-- Let's group them properly to center. -->
+    
+    <g transform="translate(400, 120)" class="float">
+        <text x="0" y="0" class="title">
+            <tspan class="word-quantum" dx="-10">QUANTUM</tspan>
+            <tspan class="word-airways" dx="10">AIRWAYS</tspan>
+        </text>
+    </g>
+
+    <!-- Tags Row -->
+    <g transform="translate(400, 200)" class="tag-group">
+        <!-- Secure Tag -->
+        <g class="tag-secure" transform="translate(-210, 0)">
+            <rect x="-60" y="-15" width="120" height="30" class="tag-rect"/>
+            <text x="0" y="5" class="tag-text">SECURE</text>
+        </g>
+        
+        <!-- Fast Tag -->
+        <g class="tag-fast" transform="translate(-70, 0)">
+            <rect x="-60" y="-15" width="120" height="30" class="tag-rect"/>
+            <text x="0" y="5" class="tag-text">FAST</text>
+        </g>
+
+        <!-- PQC Tag -->
+        <g class="tag-pqc" transform="translate(70, 0)">
+            <rect x="-60" y="-15" width="120" height="30" class="tag-rect"/>
+            <text x="0" y="5" class="tag-text">PQC</text>
+        </g>
+
+        <!-- Future Tag -->
+        <g class="tag-future" transform="translate(210, 0)">
+            <rect x="-60" y="-15" width="120" height="30" class="tag-rect"/>
+            <text x="0" y="5" class="tag-text">FUTURE</text>
+        </g>
+    </g>
+</svg>

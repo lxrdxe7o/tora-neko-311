@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post-Quantum Security Features - Quantum Airways</title>
+    <meta
+      name="description"
+      content="Comprehensive technical overview of NIST-standardized post-quantum cryptography"
+    />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <quantum-header role="banner">
+      <theme-toggle slot="theme-toggle"></theme-toggle>
+    </quantum-header>
+
+    <main id="main-content" role="main">
+      <!-- Page Header -->
+      <section
+        style="
+          padding: var(--spacing-3xl) var(--spacing-lg);
+          text-align: center;
+          background: var(--bg-secondary);
+        "
+      >
+        <div class="container-md">
+          <h1
+            class="gradient-text"
+            style="font-size: var(--text-4xl); margin-bottom: var(--spacing-md)"
+          >
+            POST-QUANTUM SECURITY FEATURES
+          </h1>
+          <p
+            class="text-secondary"
+            style="
+              font-size: var(--text-lg);
+              max-width: 700px;
+              margin: 0 auto var(--spacing-sm);
+            "
+          >
+            Protection against "Harvest Now, Decrypt Later" attacks
+          </p>
+          <p
+            class="text-muted"
+            style="
+              font-size: var(--text-base);
+              max-width: 800px;
+              margin: 0 auto;
+            "
+          >
+            Quantum computers threaten current encryption. We've implemented
+            NIST-standardized post-quantum cryptography to ensure your travel
+            data remains private for decades to come.
+          </p>
+        </div>
+      </section>
+
+      <!-- The Quantum Trinity -->
+      <section style="padding: var(--spacing-3xl) var(--spacing-lg)">
+        <div class="container">
+          <h2
+            class="text-center"
+            style="
+              font-size: var(--text-3xl);
+              margin-bottom: var(--spacing-xl);
+              color: var(--accent-primary);
+            "
+          >
+            THE QUANTUM TRINITY
+          </h2>
+
+          <div style="display: grid; gap: var(--spacing-xl)">
+            <!-- Kyber-512 -->
+            <expandable-section id="kyber">
+              <img
+                slot="icon"
+                src="/src/assets/icons/lock-quantum.svg"
+                alt="Lock"
+              />
+              <span slot="title">Kyber-512 Key Encapsulation</span>
+              <span slot="summary">Lattice-based quantum-safe encryption</span>
+              <div slot="badges">
+                <span class="badge">NIST FIPS 203</span>
+                <span class="badge">ML-KEM</span>
+                <span class="badge">512-bit security</span>
+              </div>
+
+              <div class="subsection">
+                <h4 class="subsection-title">Technical Overview</h4>
+                <div class="subsection-content">
+                  <p>
+                    Kyber is a key encapsulation mechanism (KEM) based on the
+                    Module Learning With Errors (Module-LWE) problem. Unlike RSA
+                    and elliptic curve cryptography which are vulnerable to
+                    Shor's algorithm on quantum computers, Kyber's security
+                    relies on lattice-based mathematical problems that remain
+                    computationally hard even for quantum adversaries.
+                  </p>
+                  <p>
+                    The algorithm was selected by NIST in 2022 and standardized
+                    as FIPS 203 (ML-KEM) in 2024, representing years of
+                    cryptanalysis and peer review by the global cryptographic
+                    community.
+                  </p>
+                </div>
+              </div>
+
+              <div class="subsection">
+                <h4 class="subsection-title">How We Implement It</h4>
+                <div class="subsection-content">
+                  <ul>
+                    <li>
+                      <strong>Passport Encryption:</strong> When you enter your
+                      passport number, we generate a fresh Kyber keypair on the
+                      server
+                    </li>
+                    <li>
+                      <strong>Key Encapsulation:</strong> A shared secret is
+                      derived using the Kyber KEM protocol
+                    </li>
+                    <li>
+                      <strong>Hybrid Encryption:</strong> The shared secret is
+                      used as a key for AES-256-GCM symmetric encryption
+                    </li>
+                    <li>
+                      <strong>Storage:</strong> Only the ciphertext and public
+                      key are stored in the database
+                    </li>
+                    <li>
+                      <strong>Decryption:</strong> Retrieval requires the
+                      private key held securely on the server
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="subsection">
+                <h4 class="subsection-title">Security Parameters</h4>
+                <div class="subsection-content">
+                  <ul>
+                    <li>
+                      <strong>Security Level:</strong> NIST Level 1 (comparable
+                      to AES-128 for quantum attacks)
+                    </li>
+                    <li><strong>Public Key Size:</strong> 800 bytes</li>
+                    <li><strong>Ciphertext Size:</strong> 768 bytes</li>
+                    <li><strong>Security Notion:</strong> IND-CCA2 secure</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="subsection">
+                <h4 class="subsection-title">Why It Matters</h4>
+                <div class="subsection-content">
+                  <p>
+                    "Harvest Now, Decrypt Later" is a real threat where
+                    adversaries collect encrypted data today with the intention
+                    of decrypting it once quantum computers become available. By
+                    implementing Kyber-512 today, we ensure your data remains
+                    confidential even in a post-quantum world.
+                  </p>
+                </div>
+              </div>
+
+              <div class="actions">
+                <a
+                  href="https://csrc.nist.gov/pubs/fips/203/final"
+                  class="action-link"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Read NIST FIPS 203 →
+                </a>
+              </div>
+            </expandable-section>
+
+            <!-- Dilithium3 -->
+            <expandable-section id="dilithium">
+              <img
+                slot="icon"
+                src="/src/assets/icons/signature-check.svg"
+                alt="Signature"
+              />
+              <span slot="title">Dilithium3 Digital Signatures</span>
+              <span slot="summary"
+                >Lattice-based quantum-resistant signatures</span
+              >
+              <div slot="badges">
+                <span class="badge">NIST FIPS 204</span>
+                <span class="badge">ML-DSA</span>
+                <span class="badge">Security Level 3</span>
+              </div>
+
+              <div class="subsection">
+                <h4 class="subsection-title">Technical Overview</h4>
+                <div class="subsection-content">
+                  <p>
+                    Dilithium is a digital signature scheme based on lattice
+                    problems (SIS and LWE). Standardized as NIST FIPS 204, it
+                    provides strong security guarantees against both classical
+                    and quantum adversaries.
+                  </p>
+                </div>
+              </div>
+
+              <div class="subsection">
+                <h4 class="subsection-title">How We Implement It</h4>
+                <div class="subsection-content">
+                  <ul>
+                    <li>
+                      <strong>Booking Confirmation:</strong> Upon successful
+                      seat reservation, a booking payload is created
+                    </li>
+                    <li>
+                      <strong>Signature Generation:</strong> The server signs
+                      the payload using a Dilithium3 private key
+                    </li>
+                    <li>
+                      <strong>Verification:</strong> Anyone can verify the
+                      signature using the public key
+                    </li>
+                    <li>
+                      <strong>Tamper Detection:</strong> Any modification to
+                      booking data invalidates the signature
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="subsection">
+                <h4 class="subsection-title">Why It Matters</h4>
+                <div class="subsection-content">
+                  <p>
+                    Traditional signature schemes (RSA, ECDSA) are vulnerable to
+                    quantum attacks. Dilithium ensures that even with a quantum
+                    computer, signatures cannot be forged, guaranteeing ticket
+                    authenticity.
+                  </p>
+                </div>
+              </div>
+
+              <div class="actions">
+                <a href="/dist/booking.html#verify" class="action-link">
+                  Try Verification Tool →
+                </a>
+                <a
+                  href="https://csrc.nist.gov/pubs/fips/204/final"
+                  class="action-link"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Read NIST FIPS 204 →
+                </a>
+              </div>
+            </expandable-section>
+
+            <!-- QRNG -->
+            <expandable-section id="qrng">
+              <img
+                slot="icon"
+                src="/src/assets/icons/entropy-dice.svg"
+                alt="Dice"
+              />
+              <span slot="title">Quantum Random Number Generation</span>
+              <span slot="summary"
+                >Hadamard gate simulation for true entropy</span
+              >
+              <div slot="badges">
+                <span class="badge">QRNG</span>
+                <span class="badge">128-bit entropy</span>
+              </div>
+
+              <div class="subsection">
+                <h4 class="subsection-title">Technical Overview</h4>
+                <div class="subsection-content">
+                  <p>
+                    Our implementation simulates quantum behavior using Hadamard
+                    gates applied to qubits in superposition states, producing
+                    high-quality entropy for booking reference generation.
+                  </p>
+                </div>
+              </div>
+
+              <div class="subsection">
+                <h4 class="subsection-title">How We Implement It</h4>
+                <div class="subsection-content">
+                  <ul>
+                    <li>
+                      <strong>Qubit Initialization:</strong> Start with |0⟩
+                      state
+                    </li>
+                    <li>
+                      <strong>Hadamard Transform:</strong> Apply H gate to
+                      create superposition
+                    </li>
+                    <li>
+                      <strong>Measurement:</strong> Collapse to |0⟩ or |1⟩ with
+                      equal probability
+                    </li>
+                    <li>
+                      <strong>Booking Reference:</strong> Encode entropy as
+                      QREF-XXXX-XXXX-XXXX format
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="subsection">
+                <h4 class="subsection-title">Why It Matters</h4>
+                <div class="subsection-content">
+                  <p>
+                    Traditional booking IDs are often predictable.
+                    Quantum-inspired random IDs ensure unpredictability,
+                    preventing brute-force enumeration and protecting privacy.
+                  </p>
+                </div>
+              </div>
+            </expandable-section>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section
+        style="
+          padding: var(--spacing-3xl) var(--spacing-lg);
+          text-align: center;
+          background: var(--bg-secondary);
+        "
+      >
+        <div class="container-md">
+          <h2
+            style="font-size: var(--text-3xl); margin-bottom: var(--spacing-lg)"
+          >
+            Experience Quantum-Safe Booking
+          </h2>
+          <quantum-button variant="primary">
+            <a
+              href="/dist/booking.html"
+              style="text-decoration: none; color: inherit"
+              >Book Your Flight →</a
+            >
+          </quantum-button>
+        </div>
+      </section>
+    </main>
+
+    <footer
+      role="contentinfo"
+      style="
+        border-top: 1px solid var(--border-primary);
+        padding: var(--spacing-xl);
+        text-align: center;
+        background: var(--bg-secondary);
+      "
+    >
+      <p class="text-muted" style="font-size: var(--text-sm)">
+        Post-Quantum Cryptography Demo • NIST FIPS 203 & 204 Standardized
+      </p>
+    </footer>
+
+    <!-- Mobile Navigation Drawer -->
+    <mobile-nav>
+      <theme-toggle slot="theme-toggle"></theme-toggle>
+    </mobile-nav>
+
+    <script type="module" src="/src/main.ts"></script>
+    <script type="module">
+      import "@/components/features/ExpandableSection/ExpandableSection";
+    </script>
+  </body>
+</html>

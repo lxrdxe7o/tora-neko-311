@@ -1,0 +1,54 @@
+/* =============================================================================
+   Light Theme - Clean Minimalistic
+   ============================================================================= */
+
+:root[data-theme="light"] {
+  /* Backgrounds */
+  --bg-primary: #fafafa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f4f4f5;
+  --bg-panel: rgba(255, 255, 255, 0.95);
+  --bg-overlay: rgba(250, 250, 250, 0.85);
+  
+  /* Accents */
+  --accent-primary: #3b82c6;
+  --accent-primary-hover: #2563a8;
+  --accent-primary-dim: rgba(59, 130, 198, 0.5);
+  --accent-secondary: #8b5cf6;
+  --accent-secondary-hover: #7c3aed;
+  --accent-secondary-dim: rgba(139, 92, 246, 0.5);
+  --accent-success: #10b981;
+  --accent-warning: #f59e0b;
+  --accent-error: #ef4444;
+  
+  /* Text */
+  --text-primary: #18181b;
+  --text-secondary: #52525b;
+  --text-muted: #a1a1aa;
+  --text-inverse: #fafafa;
+  
+  /* Borders */
+  --border-primary: rgba(59, 130, 198, 0.25);
+  --border-secondary: rgba(139, 92, 246, 0.2);
+  --border-subtle: rgba(0, 0, 0, 0.1);
+  
+  /* Shadows - No glows in light mode */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.12);
+  
+  /* Glows become subtle shadows */
+  --glow-primary: 0 2px 8px rgba(59, 130, 198, 0.15);
+  --glow-secondary: 0 2px 8px rgba(139, 92, 246, 0.15);
+  --glow-success: 0 2px 8px rgba(16, 185, 129, 0.15);
+  
+  /* Animation colors */
+  --anim-particle: rgba(59, 130, 198, 0.12);
+  --anim-shape: rgba(139, 92, 246, 0.06);
+  --anim-line: rgba(59, 130, 198, 0.1);
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, rgba(59, 130, 198, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+  --gradient-panel: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.95) 100%);
+}

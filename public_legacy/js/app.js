@@ -85,33 +85,40 @@ async function apiRequest(endpoint, options = {}) {
 }
 
 async function fetchFlights() {
-    return apiRequest('flights');
+  return apiRequest("flights");
 }
 
 async function fetchSeats(flightId) {
-    return apiRequest(`seats/${flightId}`);
+  return apiRequest(`seats/${flightId}`);
 }
 
-async function createBooking(seatId, passengerName, passportNumber, flightId, row, col) {
-    return apiRequest('book', {
-        method: 'POST',
-        body: JSON.stringify({
-            flight_id: flightId,
-            row: row,
-            col: col,
-            name: passengerName,
-            passport: passportNumber,
-        }),
-    });
+async function createBooking(
+  seatId,
+  passengerName,
+  passportNumber,
+  flightId,
+  row,
+  col
+) {
+  return apiRequest("book", {
+    method: "POST",
+    body: JSON.stringify({
+      flight_id: flightId,
+      row: row,
+      col: col,
+      name: passengerName,
+      passport: passportNumber,
+    }),
+  });
 }
 
 async function verifyTicket(bookingRef) {
-    return apiRequest('verify', {
-        method: 'POST',
-        body: JSON.stringify({
-            booking_ref: bookingRef,
-        }),
-    });
+  return apiRequest("verify", {
+    method: "POST",
+    body: JSON.stringify({
+      booking_ref: bookingRef,
+    }),
+  });
 }
 
 // =============================================================================
@@ -305,7 +312,9 @@ function createSeatElement(seat, seatClass, rowNum) {
   } else {
     seatDiv.classList.add("available");
     seatDiv.title = `Seat ${seat.label} - Available (${seatClass})`;
-    seatDiv.addEventListener("click", () => selectSeat(seat, seatClass, rowNum));
+    seatDiv.addEventListener("click", () =>
+      selectSeat(seat, seatClass, rowNum)
+    );
   }
 
   // Add class-specific styling
@@ -331,7 +340,12 @@ function selectSeat(seat, seatClass, rowNum) {
   }
 
   // Select new - include row and col for booking API
-  state.selectedSeat = { ...seat, class: seatClass, row: rowNum, col: seat.col };
+  state.selectedSeat = {
+    ...seat,
+    class: seatClass,
+    row: rowNum,
+    col: seat.col,
+  };
 
   const seatElement = document.querySelector(
     `.seat[data-seat-id="${seat.id}"]`

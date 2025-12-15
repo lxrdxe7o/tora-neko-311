@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Airways - Post-Quantum Secure Booking</title>
+  <meta name="description" content="Post-quantum cryptography protecting your travel data from future quantum threats">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+  <!-- Skip to main content link for keyboard navigation -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Scanline overlay effect -->
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <quantum-header role="banner">
+    <theme-toggle slot="theme-toggle"></theme-toggle>
+  </quantum-header>
+
+  <!-- Main content -->
+  <main id="main-content" role="main">
+    <!-- Hero Section -->
+    <section class="hero" style="min-height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: var(--spacing-3xl) var(--spacing-lg);">
+      <div class="container-md">
+        <h1 class="gradient-text" style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: var(--spacing-lg); animation: fadeIn 1s ease-out;">
+          QUANTUM-SECURED FLIGHT BOOKING
+        </h1>
+        <p class="text-secondary" style="font-size: var(--text-xl); max-width: 600px; margin: 0 auto var(--spacing-xl); animation: fadeIn 1s ease-out 0.2s both;">
+          Post-quantum cryptography protecting your travel data from future quantum threats
+        </p>
+        <div style="display: flex; gap: var(--spacing-md); justify-content: center; flex-wrap: wrap; animation: fadeIn 1s ease-out 0.4s both;">
+          <quantum-button variant="primary">
+            <a href="/dist/booking.html" style="text-decoration: none; color: inherit;">Book Your Flight</a>
+          </quantum-button>
+          <quantum-button variant="secondary">
+            <a href="#features" style="text-decoration: none; color: inherit;">Learn More</a>
+          </quantum-button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature Highlights -->
+    <section id="features" class="features fade-in-section" style="padding: var(--spacing-3xl) var(--spacing-lg); background: var(--bg-secondary);">
+      <div class="container">
+        <h2 class="text-center" style="font-size: var(--text-3xl); margin-bottom: var(--spacing-2xl); color: var(--accent-primary);">
+          POST-QUANTUM SECURITY FEATURES
+        </h2>
+        
+        <div class="stagger-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-xl);">
+          <!-- Feature Card 1 -->
+          <quantum-card>
+            <img slot="icon" src="/src/assets/icons/quantum-shield.svg" alt="Quantum Shield" style="width: 100%; height: 100%;">
+            <span slot="title">Quantum-Safe Encryption</span>
+            <span slot="summary">NIST-standardized Kyber-512 encryption</span>
+            <p>Your sensitive data protected with lattice-based post-quantum cryptography. Ensures your passport information remains secure even against quantum computer attacks.</p>
+            <quantum-button slot="footer" variant="ghost">
+              <a href="/dist/features.html#kyber" style="text-decoration: none; color: inherit;">Explore Kyber-512 →</a>
+            </quantum-button>
+          </quantum-card>
+
+          <!-- Feature Card 2 -->
+          <quantum-card>
+            <img slot="icon" src="/src/assets/icons/signature-check.svg" alt="Signature Check" style="width: 100%; height: 100%;">
+            <span slot="title">Unforgeable Digital Tickets</span>
+            <span slot="summary">Dilithium3 signatures guarantee authenticity</span>
+            <p>Every ticket is digitally signed using NIST FIPS 204 standard. Signatures cannot be forged even with quantum computing power.</p>
+            <quantum-button slot="footer" variant="ghost">
+              <a href="/dist/how-it-works.html#verification" style="text-decoration: none; color: inherit;">How Verification Works →</a>
+            </quantum-button>
+          </quantum-card>
+
+          <!-- Feature Card 3 -->
+          <quantum-card>
+            <img slot="icon" src="/src/assets/icons/entropy-dice.svg" alt="Entropy Dice" style="width: 100%; height: 100%;">
+            <span slot="title">Quantum Random Generation</span>
+            <span slot="summary">Hadamard gate simulation produces unpredictable IDs</span>
+            <p>Booking references generated using quantum random number generation principles. True entropy creates identifiers that cannot be predicted.</p>
+            <quantum-button slot="footer" variant="ghost">
+              <a href="/dist/features.html#qrng" style="text-decoration: none; color: inherit;">Understand QRNG →</a>
+            </quantum-button>
+          </quantum-card>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="stats fade-in-section" style="padding: var(--spacing-xl) var(--spacing-lg); border-top: 1px solid var(--border-primary); border-bottom: 1px solid var(--border-primary);">
+      <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-lg); text-align: center;">
+          <div class="stat-item">
+            <div class="text-accent" style="font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 900;">✓</div>
+            <div class="text-secondary" style="margin-top: var(--spacing-xs);">Post-Quantum Secure</div>
+          </div>
+          <div class="stat-item">
+            <div class="text-accent" style="font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 900;">NIST</div>
+            <div class="text-secondary" style="margin-top: var(--spacing-xs);">FIPS 203 & 204 Compliant</div>
+          </div>
+          <div class="stat-item">
+            <div class="text-accent" style="font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 900;">0</div>
+            <div class="text-secondary" style="margin-top: var(--spacing-xs);">Known Breaches</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Preview -->
+    <section class="how-it-works-preview fade-in-section" style="padding: var(--spacing-3xl) var(--spacing-lg); background: var(--bg-secondary);">
+      <div class="container-md" style="text-align: center;">
+        <h2 style="font-size: var(--text-3xl); margin-bottom: var(--spacing-2xl); color: var(--accent-primary);">
+          HOW IT WORKS
+        </h2>
+        
+        <div style="display: flex; justify-content: center; gap: var(--spacing-xl); margin-bottom: var(--spacing-2xl); flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 150px; max-width: 200px;">
+            <div style="width: 48px; height: 48px; margin: 0 auto var(--spacing-md); display: flex; align-items: center; justify-content: center; border: 2px solid var(--accent-primary); border-radius: 50%; color: var(--accent-primary); font-family: var(--font-display); font-size: var(--text-xl);">1</div>
+            <div class="text-primary" style="font-weight: 600; margin-bottom: var(--spacing-xs);">Select Flight</div>
+            <div class="text-secondary text-sm">Browse available routes and times</div>
+          </div>
+          
+          <div style="flex: 0 0 auto; color: var(--accent-primary); font-size: var(--text-2xl); display: flex; align-items: center;">→</div>
+          
+          <div style="flex: 1; min-width: 150px; max-width: 200px;">
+            <div style="width: 48px; height: 48px; margin: 0 auto var(--spacing-md); display: flex; align-items: center; justify-content: center; border: 2px solid var(--accent-primary); border-radius: 50%; color: var(--accent-primary); font-family: var(--font-display); font-size: var(--text-xl);">2</div>
+            <div class="text-primary" style="font-weight: 600; margin-bottom: var(--spacing-xs);">Choose Seat</div>
+            <div class="text-secondary text-sm">Pick your preferred seat</div>
+          </div>
+          
+          <div style="flex: 0 0 auto; color: var(--accent-primary); font-size: var(--text-2xl); display: flex; align-items: center;">→</div>
+          
+          <div style="flex: 1; min-width: 150px; max-width: 200px;">
+            <div style="width: 48px; height: 48px; margin: 0 auto var(--spacing-md); display: flex; align-items: center; justify-content: center; border: 2px solid var(--accent-success); border-radius: 50%; color: var(--accent-success); font-family: var(--font-display); font-size: var(--text-xl);">✓</div>
+            <div class="text-primary" style="font-weight: 600; margin-bottom: var(--spacing-xs);">Quantum Security</div>
+            <div class="text-secondary text-sm">Automatically protected</div>
+          </div>
+        </div>
+        
+        <quantum-button variant="secondary">
+          <a href="/dist/how-it-works.html" style="text-decoration: none; color: inherit;">Learn the Full Process →</a>
+        </quantum-button>
+      </div>
+    </section>
+
+    <!-- Trust Indicators -->
+    <section class="trust" style="padding: var(--spacing-xl) var(--spacing-lg); text-align: center; border-top: 1px solid var(--border-primary);">
+      <div class="container">
+        <div style="display: flex; justify-content: center; gap: var(--spacing-2xl); flex-wrap: wrap; color: var(--text-muted); font-size: var(--text-sm);">
+          <div>✓ NIST Standardized</div>
+          <div>✓ Open Architecture</div>
+          <div>✓ Quantum Ready</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer role="contentinfo" style="border-top: 1px solid var(--border-primary); padding: var(--spacing-xl); text-align: center; background: var(--bg-secondary);">
+    <p class="text-muted" style="font-size: var(--text-sm); margin-bottom: var(--spacing-xs);">
+      Post-Quantum Cryptography Demo • Protected against "Harvest Now, Decrypt Later" attacks
+    </p>
+    <p class="text-accent" style="font-family: var(--font-display); font-size: var(--text-xs); letter-spacing: 0.1em;">
+      DILITHIUM3 + KYBER512 + QRNG SIMULATION
+    </p>
+  </footer>
+
+  <!-- Mobile Navigation Drawer -->
+  <mobile-nav>
+    <theme-toggle slot="theme-toggle"></theme-toggle>
+  </mobile-nav>
+
+  <style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

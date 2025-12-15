@@ -1,6 +1,7 @@
 import mysql.connector
 import sys
 import time
+import os
 
 def init_db():
     print("Connecting to MariaDB...")
@@ -11,9 +12,9 @@ def init_db():
     for i in range(max_retries):
         try:
             conn = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                password=""
+                host=os.environ.get('DB_HOST', 'localhost'),
+                user=os.environ.get('DB_USER', 'root'),
+                password=os.environ.get('DB_PASSWORD', '')
             )
             break
         except mysql.connector.Error as err:
@@ -32,6 +33,19 @@ def init_db():
         cursor.execute("CREATE DATABASE airline_db CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci")
         cursor.execute("USE airline_db")
 
+        print("Creating table 'aircraft_layouts'...")
+        cursor.execute("""
+            CREATE TABLE aircraft_layouts (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                aircraft_type VARCHAR(50) NOT NULL,
+                row_start INT NOT NULL,
+                row_end INT NOT NULL,
+                class ENUM('economy', 'business', 'first') NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                INDEX idx_layout_type (aircraft_type)
+            ) ENGINE=InnoDB
+        """)
+
         print("Creating table 'flights'...")
         cursor.execute("""
             CREATE TABLE flights (
@@ -48,7 +62,8 @@ def init_db():
                 status ENUM('scheduled', 'boarding', 'departed', 'arrived', 'cancelled') DEFAULT 'scheduled',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 INDEX idx_flights_departure (departure_time),
-                INDEX idx_flights_route (origin, destination)
+                INDEX idx_flights_route (origin, destination),
+                INDEX idx_flights_aircraft (aircraft_type)
             ) ENGINE=InnoDB
         """)
 
@@ -57,9 +72,8 @@ def init_db():
             CREATE TABLE seats (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 flight_id INT NOT NULL,
-                row_num VARCHAR(2) NOT NULL,
+                row_num INT NOT NULL,
                 col_num VARCHAR(1) NOT NULL,
-                class ENUM('economy', 'business', 'first') DEFAULT 'economy',
                 is_booked TINYINT(1) DEFAULT 0,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -91,6 +105,31 @@ def init_db():
             ) ENGINE=InnoDB
         """)
 
+        print("Seeding aircraft layouts...")
+        # Define layouts for our fleet
+        # Q-100: 2 rows First, 2 rows Business, 6 rows Economy
+        # Q-200: 3 rows First, 3 rows Business, 5 rows Economy
+        # Q-300: 4 rows First, 4 rows Business, 12 rows Economy 
+        layouts_data = [
+            ('Quantum Jet Q-100', 1, 2, 'first'),
+            ('Quantum Jet Q-100', 3, 4, 'business'),
+            ('Quantum Jet Q-100', 5, 20, 'economy'),
+            
+            ('Quantum Jet Q-200', 1, 3, 'first'),
+            ('Quantum Jet Q-200', 4, 6, 'business'),
+            ('Quantum Jet Q-200', 7, 25, 'economy'),
+
+            ('Quantum Jet Q-300', 1, 4, 'first'),
+            ('Quantum Jet Q-300', 5, 8, 'business'),
+            ('Quantum Jet Q-300', 9, 30, 'economy')
+        ]
+        
+        cursor.executemany("""
+            INSERT INTO aircraft_layouts (aircraft_type, row_start, row_end, class)
+            VALUES (%s, %s, %s, %s)
+        """, layouts_data)
+        conn.commit()
+
         print("Seeding flights...")
         flights_data = [
             ('QA-101', 'New York (JFK)', 'London (LHR)', '2025-03-15 08:00:00', '2025-03-15 20:00:00', 899.99, 'Quantum Jet Q-100'),
@@ -107,25 +146,19 @@ def init_db():
         conn.commit()
 
         print("Seeding seats...")
-        cursor.execute("SELECT id FROM flights")
-        flight_ids = [row[0] for row in cursor.fetchall()]
+        cursor.execute("SELECT id, aircraft_type FROM flights")
+        flights = cursor.fetchall()
 
         seat_data = []
-        for f_id in flight_ids:
+        for f in flights:
+            f_id = f[0]
+            # Standard 10 rows for demo simplicity, though logically dynamic based on layout
             for r in range(1, 11):
-                # Determine class
-                if r <= 2:
-                    seat_class = 'first'
-                elif r <= 4:
-                    seat_class = 'business'
-                else:
-                    seat_class = 'economy'
-                
                 for c in ['A', 'B', 'C', 'D', 'E', 'F']:
-                    seat_data.append((f_id, str(r), c, seat_class))
+                    seat_data.append((f_id, r, c))
         
         cursor.executemany("""
-            INSERT INTO seats (flight_id, row_num, col_num, class) VALUES (%s, %s, %s, %s)
+            INSERT INTO seats (flight_id, row_num, col_num) VALUES (%s, %s, %s)
         """, seat_data)
         conn.commit()
 

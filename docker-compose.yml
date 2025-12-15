@@ -1,46 +1,65 @@
 services:
-  # PostgreSQL Database
-  postgres:
-    image: postgres:16-alpine
-    container_name: quantum-db
+  # MariaDB Database
+  db:
+    image: mariadb:10.6
+    container_name: quantum_db
     environment:
-      POSTGRES_DB: quantum_airline
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: airline_db
     volumes:
-      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - db_data:/var/lib/mysql
+      # Mount schema for manual initialization if needed, though init_db.py handles it
+      - ./schema_mariadb.sql:/docker-entrypoint-initdb.d/schema.sql
     ports:
-      - "5432:5432"
+      - "3306:3306"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d quantum_airline"]
-      interval: 3s
-      timeout: 3s
-      retries: 10
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
     networks:
-      - quantum-net
+      - quantum_net
 
-  # PHP Application Server (using webdevops image with pgsql pre-installed)
-  app:
-    image: webdevops/php:8.2
-    container_name: quantum-app
-    working_dir: /app
-    ports:
-      - "8000:8000"
+  # Python Flask Backend
+  backend:
+    build: .
+    container_name: quantum_backend
     depends_on:
-      postgres:
+      db:
         condition: service_healthy
-    environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_NAME: quantum_airline
-      DB_USER: postgres
-      DB_PASSWORD: postgres
     volumes:
       - .:/app
-    command: php -S 0.0.0.0:8000 -t public
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: airline_db
+    command: ["/bin/bash", "entrypoint.sh"]
+    ports:
+      - "5000:5000"
     networks:
-      - quantum-net
+      - quantum_net
+
+  # Frontend (Vite Dev Server)
+  frontend:
+    build: 
+      context: ./frontend
+    container_name: quantum_frontend
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_ABSOLUTE_URL=http://localhost:5000/api
+    ports:
+      - "3000:3000"
+    networks:
+      - quantum_net
 
 networks:
-  quantum-net:
+  quantum_net:
     driver: bridge
+
+volumes:
+  db_data:

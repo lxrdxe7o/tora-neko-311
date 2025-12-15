@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quantum Airways - Post-Quantum Secure Booking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Scanline overlay effect -->
+    <div class="scanlines"></div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <span class="logo-icon">&#9830;</span>
+          <span class="logo-text">QUANTUM AIRWAYS</span>
+          <span class="logo-icon">&#9830;</span>
+        </div>
+        <nav class="nav-links" style="margin-left: auto; margin-right: 2rem">
+          <a
+            href="education.html"
+            class="cyber-button secondary"
+            style="
+              padding: 0.5rem 1rem;
+              font-size: 0.8rem;
+              text-decoration: none;
+            "
+            >DB ARCHITECTURE</a
+          >
+        </nav>
+        <div class="quantum-status" id="quantumStatus">
+          <span class="status-dot"></span>
+          <span class="status-text">QUANTUM SECURE</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Flight Selection -->
+      <section class="panel" id="flightPanel">
+        <div class="panel-header">
+          <span class="panel-icon">&#9992;</span>
+          <h2>SELECT FLIGHT</h2>
+        </div>
+        <div class="panel-content">
+          <select id="flightSelect" class="cyber-select">
+            <option value="">-- Loading flights --</option>
+          </select>
+          <div id="flightInfo" class="flight-info hidden">
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="info-label">ROUTE</span>
+                <span class="info-value" id="flightRoute">-</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">DEPARTURE</span>
+                <span class="info-value" id="flightDeparture">-</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">PRICE</span>
+                <span class="info-value" id="flightPrice">-</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">AVAILABLE</span>
+                <span class="info-value" id="flightAvailable">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seat Selection -->
+      <section class="panel" id="seatPanel">
+        <div class="panel-header">
+          <span class="panel-icon">&#9641;</span>
+          <h2>SEAT SELECTION</h2>
+        </div>
+        <div class="panel-content">
+          <div class="seat-legend">
+            <div class="legend-item">
+              <span class="seat-sample available"></span>
+              <span>Available</span>
+            </div>
+            <div class="legend-item">
+              <span class="seat-sample booked"></span>
+              <span>Booked</span>
+            </div>
+            <div class="legend-item">
+              <span class="seat-sample selected"></span>
+              <span>Selected</span>
+            </div>
+          </div>
+          <div class="seat-map-container">
+            <div class="seat-map" id="seatMap">
+              <div class="seat-placeholder">
+                Select a flight to view seat map
+              </div>
+            </div>
+          </div>
+          <div class="selected-seat-info hidden" id="selectedSeatInfo">
+            <span>Selected: </span>
+            <span class="seat-label" id="selectedSeatLabel">-</span>
+            <span class="seat-class" id="selectedSeatClass">-</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Passenger Details -->
+      <section class="panel" id="passengerPanel">
+        <div class="panel-header">
+          <span class="panel-icon">&#9786;</span>
+          <h2>PASSENGER DETAILS</h2>
+        </div>
+        <div class="panel-content">
+          <form id="bookingForm" class="booking-form">
+            <div class="form-group">
+              <label for="passengerName">PASSENGER NAME</label>
+              <input
+                type="text"
+                id="passengerName"
+                class="cyber-input"
+                placeholder="Enter full name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="passportNumber">
+                PASSPORT NUMBER
+                <span class="encryption-badge">
+                  <span class="lock-icon">&#128274;</span>
+                  Kyber512 Protected
+                </span>
+              </label>
+              <input
+                type="text"
+                id="passportNumber"
+                class="cyber-input"
+                placeholder="Enter passport number"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              class="cyber-button primary"
+              id="bookButton"
+              disabled
+            >
+              <span class="button-icon">&#9830;</span>
+              CONFIRM QUANTUM-SECURED BOOKING
+              <span class="button-icon">&#9830;</span>
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Quantum Security Info -->
+      <section class="panel quantum-panel">
+        <div class="panel-header">
+          <span class="panel-icon">&#9883;</span>
+          <h2>THE QUANTUM TRINITY</h2>
+        </div>
+        <div class="panel-content">
+          <div class="trinity-grid">
+            <div class="trinity-card">
+              <div class="trinity-icon">&#128274;</div>
+              <h3>KYBER-512</h3>
+              <p class="trinity-subtitle">Key Encapsulation</p>
+              <p class="trinity-desc">NIST FIPS 203 (ML-KEM)</p>
+              <p class="trinity-detail">
+                Lattice-based quantum-safe encryption for passport data
+              </p>
+            </div>
+            <div class="trinity-card">
+              <div class="trinity-icon">&#9998;</div>
+              <h3>DILITHIUM3</h3>
+              <p class="trinity-subtitle">Digital Signature</p>
+              <p class="trinity-desc">NIST FIPS 204 (ML-DSA)</p>
+              <p class="trinity-detail">
+                Unforgeable quantum-resistant ticket signatures
+              </p>
+            </div>
+            <div class="trinity-card">
+              <div class="trinity-icon">&#127922;</div>
+              <h3>QRNG</h3>
+              <p class="trinity-subtitle">Entropy Source</p>
+              <p class="trinity-desc">Hadamard Simulation</p>
+              <p class="trinity-detail">
+                Quantum random booking reference generation
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Booking Result Modal -->
+      <div class="modal-overlay hidden" id="resultModal">
+        <div class="modal">
+          <div class="modal-header">
+            <h2>BOOKING CONFIRMED</h2>
+            <button class="modal-close" id="modalClose">&times;</button>
+          </div>
+          <div class="modal-content" id="modalContent">
+            <!-- Populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Verify Ticket Section -->
+      <section class="panel verify-panel">
+        <div class="panel-header">
+          <span class="panel-icon">&#9989;</span>
+          <h2>VERIFY TICKET</h2>
+        </div>
+        <div class="panel-content">
+          <div class="verify-form">
+            <input
+              type="text"
+              id="verifyBookingRef"
+              class="cyber-input"
+              placeholder="Enter booking reference"
+            />
+            <button
+              type="button"
+              class="cyber-button secondary"
+              id="verifyButton"
+            >
+              VERIFY SIGNATURE
+            </button>
+          </div>
+          <div class="verify-result hidden" id="verifyResult">
+            <!-- Populated by JavaScript -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>
+          Post-Quantum Cryptography Demo &bull; Protected against "Harvest Now,
+          Decrypt Later" attacks
+        </p>
+        <p class="footer-tech">Dilithium3 + Kyber512 + QRNG Simulation</p>
+      </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loadingOverlay">
+      <div class="loading-spinner">
+        <div class="spinner-ring"></div>
+        <div class="spinner-text">PROCESSING</div>
+      </div>
+    </div>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>

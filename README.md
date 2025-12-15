@@ -4,12 +4,14 @@
 
 <p align="center">
   <a href="#-quick-start"><img src="https://img.shields.io/badge/🚀_Quick_Start-blue?style=for-the-badge" alt="Quick Start"/></a>
-  <a href="#-windows-setup"><img src="https://img.shields.io/badge/🪟_Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Windows"/></a>
-  <a href="#-linux-setup"><img src="https://img.shields.io/badge/🐧_Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux"/></a>
+  <a href="#-tech-stack"><img src="https://img.shields.io/badge/💻_Stack-purple?style=for-the-badge" alt="Tech Stack"/></a>
   <a href="#-api-endpoints"><img src="https://img.shields.io/badge/📡_API-green?style=for-the-badge" alt="API"/></a>
 </p>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white"/>
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white"/>
   <img src="https://img.shields.io/badge/Flask-3.0+-000000?style=flat-square&logo=flask&logoColor=white"/>
   <img src="https://img.shields.io/badge/MariaDB-003545?style=flat-square&logo=mariadb&logoColor=white"/>
@@ -45,24 +47,24 @@
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Architecture (Dockerized)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│  🌐  FRONTEND (HTML/CSS/JS)                                             │
-│      Cyberpunk UI • Port 80/8080                                        │
+│  ⚛️  NODE.JS FRONTEND (Vite)                                            │
+│      Cyberpunk UI • Port 3000 (Host)                                    │
 └────────────────────────────────────┬────────────────────────────────────┘
-                                     │ CORS
+                                     │ Proxy /api
                                      ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │  🐍  PYTHON FLASK BACKEND                                               │
-│      Quantum Trinity • Port 5000                                        │
+│      Quantum Trinity • Port 5000 (Internal)                             │
 └────────────────────────────────────┬────────────────────────────────────┘
                                      │
                                      ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│  🗄️  MariaDB / MySQL                                                    │
-│      InnoDB • Row-Level Locking • Port 3306                             │
+│  🗄️  MariaDB                                                            │
+│      InnoDB • Port 3306 (Internal)                                      │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -70,102 +72,25 @@
 
 ## 🚀 Quick Start
 
+This project is fully containerized. You only need **Docker** and **Docker Compose**.
+
 ```bash
-# Clone
+# 1. Clone
 git clone <repository-url> && cd quantum-airline
 
-# Setup (choose your OS below)
-# Initialize database
-python init_db.py
-
-# Run
-./run_system.sh          # Linux
-.\scripts\run-windows.ps1 # Windows
-```
-
-**Open:** http://localhost:8080
-
----
-
-## 🪟 Windows Setup
-
-<details>
-<summary><b>📋 Prerequisites</b></summary>
-
-- [XAMPP](https://www.apachefriends.org/) (Apache + MariaDB)
-- [Python 3.10+](https://www.python.org/downloads/)
-- Git (optional)
-
-</details>
-
-### ⚡ Automated Setup
-
-```powershell
-.\scripts\setup-windows.ps1
-python init_db.py
-.\scripts\run-windows.ps1
-```
-
-### 🔧 Manual Setup
-
-```powershell
-# 1️⃣ Create virtual environment
-python -m venv venv
-.\venv\Scripts\Activate.ps1
-
-# 2️⃣ Install dependencies
-pip install flask flask-cors mysql-connector-python cryptography
-
-# 3️⃣ Start XAMPP MySQL from Control Panel
-
-# 4️⃣ Initialize database
-python init_db.py
-
-# 5️⃣ Start servers
-python server.py                           # Terminal 1
-cd public; python -m http.server 8080      # Terminal 2
-```
-
----
-
-## 🐧 Linux Setup
-
-<details>
-<summary><b>📋 Prerequisites</b></summary>
-
-- Python 3.10+
-- MariaDB or MySQL
-- Git (optional)
-
-</details>
-
-### ⚡ Automated Setup
-
-```bash
-chmod +x scripts/*.sh run_system.sh
-./scripts/setup-linux.sh
-python init_db.py
+# 2. Run (Builds containers, inits DB, starts services)
 ./run_system.sh
 ```
 
-### 🔧 Arch Linux
+**Access the application:**
+
+- **Frontend:** [http://localhost:3000](http://localhost:3000)
+- **Backend API:** [http://localhost:5000/api/health](http://localhost:5000/api/health)
+
+To stop the system:
 
 ```bash
-yay -S python-flask python-flask-cors python-mysql-connector python-cryptography mariadb
-sudo systemctl start mariadb
-python init_db.py
-./run_system.sh
-```
-
-### 🔧 Ubuntu/Debian
-
-```bash
-sudo apt install python3 python3-pip python3-venv mariadb-server
-python3 -m venv venv && source venv/bin/activate
-pip install flask flask-cors mysql-connector-python cryptography
-sudo systemctl start mariadb
-python init_db.py
-./run_system.sh
+docker-compose down
 ```
 
 ---
@@ -219,37 +144,35 @@ POST /api/book
 
 ```
 quantum-airline/
+├── 🐳 docker-compose.yml     # Service orchestration
+├── 🐳 Dockerfile             # Backend image definition
+├── 🚀 run_system.sh          # Setup & Run script
 ├── 🐍 server.py              # Flask backend
-├── 🗄️ schema_mariadb.sql     # Database schema
 ├── 🔧 init_db.py             # DB initializer
-├── 🚀 run_system.sh          # Linux launcher
 ├── 📦 requirements.txt       # Python deps
-├── 🔬 quantum_service/       # PQC modules
+├── 📂 frontend/              # New Node/Vite Frontend
+│   ├── 🐳 Dockerfile         # Frontend image definition
+│   ├── ⚙️ vite.config.ts     # Vite configuration
+│   ├── 📄 package.json       # Node dependencies
+│   ├── 📂 src/               # TypeScript source
+│   └── 📂 public/            # Static assets
+├── 📂 quantum_service/       # PQC modules
 │   ├── entropy.py            # QRNG
 │   ├── encryptor.py          # Kyber512
 │   ├── signer.py             # Dilithium3
 │   └── decryptor.py          # Decryption
-├── 🌐 public/                # Frontend
-│   ├── index.html
-│   ├── css/style.css
-│   └── js/app.js
-└── 📜 scripts/               # Setup scripts
-    ├── setup-windows.ps1
-    ├── run-windows.ps1
-    ├── setup-linux.sh
-    └── run-linux.sh
+└── 📂 public_legacy/         # Old static frontend (archived)
 ```
 
 ---
 
 ## 🔥 Troubleshooting
 
-| Issue               | Solution                          |
-| :------------------ | :-------------------------------- |
-| 🔴 Connection Error | Start Flask backend on port 5000  |
-| 🔴 Database failed  | Start MariaDB/MySQL service       |
-| 🔴 CORS error       | Check `server.py` origins list    |
-| 🔴 Module not found | Activate venv or install packages |
+| Issue                                | Solution                                                                   |
+| :----------------------------------- | :------------------------------------------------------------------------- |
+| 🔴 **Containers fail to start**      | Ensure Docker Desktop is running and ports 3000, 5000, 3306 are free.      |
+| 🔴 **Frontend "Connection Refused"** | Wait 10-20s for the backend to fully start up.                             |
+| 🔴 **Database issues**               | Delete the volume: `docker volume rm quantum-airline_db_data` and restart. |
 
 ---
 
@@ -272,5 +195,6 @@ quantum-airline/
   <br/>
   <a href="https://openquantumsafe.org/">liboqs</a> •
   <a href="https://csrc.nist.gov/projects/post-quantum-cryptography">NIST PQC</a> •
-  <a href="https://flask.palletsprojects.com/">Flask</a>
+  <a href="https://flask.palletsprojects.com/">Flask</a> •
+  <a href="https://vitejs.dev/">Vite</a>
 </p>

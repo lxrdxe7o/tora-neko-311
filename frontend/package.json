@@ -1,0 +1,25 @@
+{
+  "name": "quantum-airways-frontend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "lenis": "^1.1.9",
+    "nanostores": "^0.10.3",
+    "date-fns": "^3.6.0",
+    "clsx": "^2.1.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vite": "^5.4.11",
+    "postcss": "^8.4.49",
+    "autoprefixer": "^10.4.20",
+    "@types/node": "^22.10.1"
+  }
+}

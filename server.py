@@ -40,29 +40,22 @@ except ImportError:
 # =============================================================================
 # Flask App Configuration
 # =============================================================================
-app = Flask(__name__)
+app = Flask(__name__, static_folder='public', static_url_path='')
+CORS(app)
 
-# CORS Configuration - Allow Apache on port 80 to communicate with this server
-CORS(app, origins=[
-    "http://localhost",
-    "http://localhost:80",
-    "http://127.0.0.1",
-    "http://127.0.0.1:80",
-    "http://localhost:5500",  # VS Code Live Server
-    "http://127.0.0.1:5500",
-    "http://localhost:8080",  # Python http.server
-    "http://127.0.0.1:8080"
-])
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 
 # =============================================================================
 # Database Configuration (XAMPP MariaDB)
 # =============================================================================
 DB_CONFIG = {
-    'host': 'localhost',
-    'port': 3306,
-    'user': 'root',
-    'password': '',  # XAMPP default has no password
-    'database': 'airline_db',
+    'host': os.environ.get('DB_HOST', 'localhost'),
+    'port': int(os.environ.get('DB_PORT', 3306)),
+    'user': os.environ.get('DB_USER', 'root'),
+    'password': os.environ.get('DB_PASSWORD', ''),  # XAMPP default has no password, Docker uses 'root'
+    'database': os.environ.get('DB_NAME', 'airline_db'),
     'autocommit': False  # We handle transactions manually
 }
 
@@ -290,12 +283,16 @@ def get_seats(flight_id):
             flight['departure_time'] = flight['departure_time'].isoformat()
         flight['price'] = float(flight['price'])
         
-        # Get seats
+        # Get seats with class from aircraft_layouts
         cursor.execute("""
-            SELECT id, row_num, col_num, class, is_booked
-            FROM seats
-            WHERE flight_id = %s
-            ORDER BY CAST(row_num AS UNSIGNED), col_num
+            SELECT s.id, s.row_num, s.col_num, s.is_booked,
+                   al.class
+            FROM seats s
+            JOIN flights f ON s.flight_id = f.id
+            JOIN aircraft_layouts al ON f.aircraft_type = al.aircraft_type
+            WHERE s.flight_id = %s
+              AND s.row_num BETWEEN al.row_start AND al.row_end
+            ORDER BY s.row_num, s.col_num
         """, (flight_id,))
         
         seats = cursor.fetchall()
@@ -398,9 +395,13 @@ def create_booking():
         # Step 2: THE HARD LOCK (Pessimistic Locking)
         # SELECT ... FOR UPDATE locks the row until COMMIT or ROLLBACK
         cursor.execute("""
-            SELECT id, is_booked, class 
-            FROM seats 
-            WHERE flight_id = %s AND row_num = %s AND col_num = %s
+            SELECT s.id, s.is_booked,
+                   al.class
+            FROM seats s
+            JOIN flights f ON s.flight_id = f.id
+            JOIN aircraft_layouts al ON f.aircraft_type = al.aircraft_type
+            WHERE s.flight_id = %s AND s.row_num = %s AND s.col_num = %s
+              AND s.row_num BETWEEN al.row_start AND al.row_end
             FOR UPDATE
         """, (flight_id, row_num, col_num))
         
@@ -546,12 +547,15 @@ def verify_ticket():
             SELECT 
                 b.id, b.pqc_ref, b.passenger_name, b.pqc_signature, 
                 b.ticket_data_hash, b.seat_id, b.flight_id,
-                s.row_num, s.col_num, s.class as seat_class,
+                s.row_num, s.col_num,
+                al.class as seat_class,
                 f.flight_number, f.origin, f.destination
             FROM bookings b
             JOIN seats s ON b.seat_id = s.id
             JOIN flights f ON b.flight_id = f.id
+            JOIN aircraft_layouts al ON f.aircraft_type = al.aircraft_type
             WHERE b.pqc_ref = %s
+              AND s.row_num BETWEEN al.row_start AND al.row_end
         """, (booking_ref,))
         
         booking = cursor.fetchone()

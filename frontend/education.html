@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Architecture & Technical Details - Quantum Airways</title>
+  <meta name="description" content="Deep dive into database architecture, system design, and quantum security implementation">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <quantum-header role="banner">
+    <theme-toggle slot="theme-toggle"></theme-toggle>
+  </quantum-header>
+
+  <main id="main-content" role="main">
+
+  <main>
+    <!-- Page Header -->
+    <section style="padding: var(--spacing-3xl) var(--spacing-lg); text-align: center; background: var(--bg-secondary);">
+      <div class="container-md">
+        <h1 class="gradient-text" style="font-size: var(--text-4xl); margin-bottom: var(--spacing-md);">
+          ARCHITECTURE & TECHNICAL DETAILS
+        </h1>
+        <p class="text-secondary" style="font-size: var(--text-lg); max-width: 700px; margin: 0 auto;">
+          Comprehensive technical documentation for developers and engineers
+        </p>
+      </div>
+    </section>
+
+    <!-- Tab Navigation -->
+    <section style="padding: var(--spacing-xl) var(--spacing-lg) 0;">
+      <div class="container">
+        <tab-navigation default="database">
+          <a href="#database" class="tab" data-tab="database">Database Architecture</a>
+          <a href="#system" class="tab" data-tab="system">System Architecture</a>
+          <a href="#quantum-security" class="tab" data-tab="quantum-security">Quantum Security</a>
+          <a href="#developers" class="tab" data-tab="developers">For Developers</a>
+        </tab-navigation>
+      </div>
+    </section>
+
+    <!-- Tab Content -->
+    <section style="padding: 0 var(--spacing-lg) var(--spacing-3xl);">
+      <div class="container">
+        <!-- Database Architecture Tab -->
+        <div id="tab-database" class="tab-content">
+          <h2 style="font-size: var(--text-3xl); margin-bottom: var(--spacing-xl); color: var(--accent-primary);">
+            DATABASE ARCHITECTURE
+          </h2>
+
+          <div style="display: grid; gap: var(--spacing-xl);">
+            <div style="background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); padding: var(--spacing-xl);">
+              <h3 style="margin-bottom: var(--spacing-md);">Relational Algebra Fundamentals</h3>
+              <p class="text-secondary" style="margin-bottom: var(--spacing-md);">
+                SQL is built on the mathematical foundation of relational algebra. Our seat retrieval query maps to these formal operations:
+              </p>
+              <div class="code-block" style="background: var(--bg-tertiary); padding: var(--spacing-md); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: var(--text-sm); overflow-x: auto; margin: var(--spacing-md) 0;">
+π_{id, row, col, class} (
+  σ_{flight_id=1} (
+    Seats ⋈_{flight_id} Flights ⋈_{ac_type} Layouts
+  )
+)
+              </div>
+              <div style="margin-top: var(--spacing-md);">
+                <strong>Where:</strong>
+                <ul style="margin-top: var(--spacing-sm); padding-left: var(--spacing-lg);">
+                  <li>π (pi) = Projection (select columns)</li>
+                  <li>σ (sigma) = Selection (filter rows)</li>
+                  <li>⋈ (bowtie) = Join operation</li>
+                </ul>
+              </div>
+            </div>
+
+            <div style="background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); padding: var(--spacing-xl);">
+              <h3 style="margin-bottom: var(--spacing-md);">Normalization (2NF → 3NF)</h3>
+              <p class="text-secondary" style="margin-bottom: var(--spacing-md);">
+                Initially, our seats table stored the class (Economy, Business, First) for every single seat, causing massive redundancy.
+              </p>
+              
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-lg); margin: var(--spacing-md) 0;">
+                <div style="padding: var(--spacing-md); background: rgba(224, 108, 117, 0.1); border: 1px solid var(--accent-error); border-radius: var(--radius-sm);">
+                  <div style="color: var(--accent-error); font-weight: 600; margin-bottom: var(--spacing-sm);">❌ BEFORE (Redundant)</div>
+                  <div class="code-block" style="background: var(--bg-tertiary); padding: var(--spacing-sm); font-size: var(--text-xs);">
+| id | row | col | class   |
+|----|-----|-----|---------|
+| 1  | 1   | A   | First   |
+| 2  | 1   | B   | First   |
+| 3  | 2   | A   | First   |
+...
+| 99 | 10  | F   | Economy |
+                  </div>
+                  <p class="text-muted" style="margin-top: var(--spacing-sm); font-size: var(--text-xs);">
+                    "Class" repeated thousands of times!
+                  </p>
+                </div>
+
+                <div style="padding: var(--spacing-md); background: rgba(126, 217, 162, 0.1); border: 1px solid var(--accent-success); border-radius: var(--radius-sm);">
+                  <div style="color: var(--accent-success); font-weight: 600; margin-bottom: var(--spacing-sm);">✓ AFTER (3NF)</div>
+                  <div class="code-block" style="background: var(--bg-tertiary); padding: var(--spacing-sm); font-size: var(--text-xs);">
+aircraft_layouts:
+| type  | start | end | class   |
+|-------|-------|-----|---------|
+| Q-100 | 1     | 2   | First   |
+| Q-100 | 3     | 4   | Business|
+| Q-100 | 5     | 20  | Economy |
+                  </div>
+                  <p class="text-muted" style="margin-top: var(--spacing-sm); font-size: var(--text-xs);">
+                    Seat class derived via range JOIN!
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div style="background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); padding: var(--spacing-xl);">
+              <h3 style="margin-bottom: var(--spacing-md);">Physical Implementation</h3>
+              <p class="text-secondary" style="margin-bottom: var(--spacing-md);">
+                Range-based JOIN in MySQL/MariaDB:
+              </p>
+              <div class="code-block" style="background: var(--bg-tertiary); padding: var(--spacing-md); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: var(--text-sm); overflow-x: auto;">
+SELECT s.row_num, s.col, al.class
+FROM seats s
+JOIN flights f ON s.flight_id = f.id
+JOIN aircraft_layouts al ON f.aircraft_type = al.aircraft_type
+WHERE s.row_num BETWEEN al.row_start AND al.row_end;
+              </div>
+              <p class="text-muted" style="margin-top: var(--spacing-md);">
+                This allows storing millions of seats without a single "Class" string in the seats table, saving gigabytes of storage.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- System Architecture Tab -->
+        <div id="tab-system" class="tab-content hidden">
+          <h2 style="font-size: var(--text-3xl); margin-bottom: var(--spacing-xl); color: var(--accent-primary);">
+            SYSTEM ARCHITECTURE
+          </h2>
+
+          <div style="background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); padding: var(--spacing-xl); margin-bottom: var(--spacing-xl);">
+            <h3 style="margin-bottom: var(--spacing-md);">Three-Tier Architecture</h3>
+            <div class="code-block" style="background: var(--bg-tertiary); padding: var(--spacing-lg); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: var(--text-sm);">
+┌─────────────────────────────────┐
+│   FRONTEND (Presentation)       │
+│   Vite + TypeScript             │
+│   Web Components                │
+│   Static build → /dist/         │
+└────────────┬────────────────────┘
+             │ HTTPS (JSON API)
+             ▼
+┌─────────────────────────────────┐
+│   BACKEND (Application)         │
+│   Python Flask REST API         │
+│   Port 5000                     │
+│   Quantum Service integration   │
+└────────────┬────────────────────┘
+             │ mysql-connector
+             ▼
+┌─────────────────────────────────┐
+│   DATABASE (Persistence)        │
+│   MariaDB/MySQL                 │
+│   InnoDB engine (ACID)          │
+│   Row-level locking             │
+└─────────────────────────────────┘
+            </div>
+          </div>
+
+          <div style="background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); padding: var(--spacing-xl);">
+            <h3 style="margin-bottom: var(--spacing-md);">Technology Stack</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-lg);">
+              <div>
+                <div style="font-weight: 600; margin-bottom: var(--spacing-sm); color: var(--accent-primary);">Frontend</div>
+                <ul style="padding-left: var(--spacing-lg);">
+                  <li>Vite 5.x - Build tool</li>
+                  <li>TypeScript 5.x - Type safety</li>
+                  <li>Web Components - Modularity</li>
+                  <li>GSAP - Animations</li>
+                </ul>
+              </div>
+              <div>
+                <div style="font-weight: 600; margin-bottom: var(--spacing-sm); color: var(--accent-primary);">Backend</div>
+                <ul style="padding-left: var(--spacing-lg);">
+                  <li>Flask 3.x - Web framework</li>
+                  <li>Flask-CORS - Cross-origin</li>
+                  <li>mysql-connector - Database</li>
+                </ul>
+              </div>
+              <div>
+                <div style="font-weight: 600; margin-bottom: var(--spacing-sm); color: var(--accent-primary);">Quantum Service</div>
+                <ul style="padding-left: var(--spacing-lg);">
+                  <li>cryptography - AES-GCM</li>
+                  <li>liboqs-python (optional)</li>
+                  <li>Custom PQC simulation</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quantum Security Tab -->
+        <div id="tab-quantum-security" class="tab-content hidden">
+          <h2 style="font-size: var(--text-3xl); margin-bottom: var(--spacing-xl); color: var(--accent-primary);">
+            QUANTUM SECURITY IMPLEMENTATION
+          </h2>
+
+          <div style="background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); padding: var(--spacing-xl);">
+            <h3 style="margin-bottom: var(--spacing-md);">The Quantum Threat</h3>
+            <p class="text-secondary">
+              Classical cryptography vulnerabilities when quantum computers become available:
+            </p>
+            <ul style="margin-top: var(--spacing-md); padding-left: var(--spacing-lg);">
+              <li><strong>RSA:</strong> Broken by Shor's algorithm in polynomial time</li>
+              <li><strong>ECC:</strong> Also vulnerable to Shor's algorithm</li>
+              <li><strong>AES:</strong> Grover's algorithm reduces effective key strength by half</li>
+            </ul>
+            <p class="text-muted" style="margin-top: var(--spacing-md);">
+              Our solution: NIST-standardized post-quantum algorithms (Kyber, Dilithium) that resist quantum attacks.
+            </p>
+          </div>
+        </div>
+
+        <!-- For Developers Tab -->
+        <div id="tab-developers" class="tab-content hidden">
+          <h2 style="font-size: var(--text-3xl); margin-bottom: var(--spacing-xl); color: var(--accent-primary);">
+            FOR DEVELOPERS
+          </h2>
+
+          <div style="display: grid; gap: var(--spacing-xl);">
+            <div style="background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); padding: var(--spacing-xl);">
+              <h3 style="margin-bottom: var(--spacing-md);">API Endpoints</h3>
+              <div style="display: grid; gap: var(--spacing-md);">
+                <div style="padding: var(--spacing-md); background: var(--bg-tertiary); border-radius: var(--radius-sm);">
+                  <div style="font-family: var(--font-mono); color: var(--accent-success); margin-bottom: var(--spacing-xs);">GET /api/flights</div>
+                  <div class="text-secondary text-sm">List all available flights</div>
+                </div>
+                <div style="padding: var(--spacing-md); background: var(--bg-tertiary); border-radius: var(--radius-sm);">
+                  <div style="font-family: var(--font-mono); color: var(--accent-success); margin-bottom: var(--spacing-xs);">GET /api/seats/{flight_id}</div>
+                  <div class="text-secondary text-sm">Get seat map for a flight</div>
+                </div>
+                <div style="padding: var(--spacing-md); background: var(--bg-tertiary); border-radius: var(--radius-sm);">
+                  <div style="font-family: var(--font-mono); color: var(--accent-warning); margin-bottom: var(--spacing-xs);">POST /api/book</div>
+                  <div class="text-secondary text-sm">Create booking with quantum security</div>
+                </div>
+                <div style="padding: var(--spacing-md); background: var(--bg-tertiary); border-radius: var(--radius-sm);">
+                  <div style="font-family: var(--font-mono); color: var(--accent-warning); margin-bottom: var(--spacing-xs);">POST /api/verify</div>
+                  <div class="text-secondary text-sm">Verify ticket signature</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); padding: var(--spacing-xl);">
+              <h3 style="margin-bottom: var(--spacing-md);">Setup & Installation</h3>
+              <div class="code-block" style="background: var(--bg-tertiary); padding: var(--spacing-md); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: var(--text-sm); overflow-x: auto;">
+# Clone repository
+git clone &lt;repo-url&gt;
+cd quantum-airways
+
+# Backend setup
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python init_db.py
+
+# Frontend setup
+cd frontend
+npm install
+npm run build
+
+# Run
+python server.py  # Backend on :5000
+# Access at http://localhost:5000/dist/
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer role="contentinfo" style="border-top: 1px solid var(--border-primary); padding: var(--spacing-xl); text-align: center; background: var(--bg-secondary);">
+    <p class="text-muted" style="font-size: var(--text-sm);">
+      Advanced Database Systems & Post-Quantum Cryptography Demo
+    </p>
+  </footer>
+
+  <script type="module" src="/src/main.ts"></script>
+  <script type="module">
+    import '@/components/features/TabNavigation/TabNavigation';
+
+    // Simple tab content switcher
+    function updateTabContent() {
+      const hash = window.location.hash.slice(1) || 'database';
+      document.querySelectorAll('.tab-content').forEach(content => {
+        if (content.id === `tab-${hash}`) {
+          content.classList.remove('hidden');
+        } else {
+          content.classList.add('hidden');
+        }
+      });
+    }
+
+    updateTabContent();
+    window.addEventListener('hashchange', updateTabContent);
+  </script>
+
+  <!-- Mobile Navigation Drawer -->
+  <mobile-nav>
+    <theme-toggle slot="theme-toggle"></theme-toggle>
+  </mobile-nav>
+</body>
+</html>

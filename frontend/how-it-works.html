@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How It Works - Quantum Airways</title>
+  <meta name="description" content="Learn how quantum-secured booking works step-by-step">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <quantum-header role="banner">
+    <theme-toggle slot="theme-toggle"></theme-toggle>
+  </quantum-header>
+
+  <main id="main-content" role="main">
+
+  <main>
+    <!-- Page Header -->
+    <section style="padding: var(--spacing-3xl) var(--spacing-lg); text-align: center; background: var(--bg-secondary);">
+      <div class="container-md">
+        <h1 class="gradient-text" style="font-size: var(--text-4xl); margin-bottom: var(--spacing-md);">
+          HOW IT WORKS
+        </h1>
+        <p class="text-secondary" style="font-size: var(--text-lg); max-width: 700px; margin: 0 auto;">
+          The quantum-secured booking journey from selection to verification
+        </p>
+      </div>
+    </section>
+
+    <!-- Interactive Booking Flow -->
+    <section style="padding: var(--spacing-3xl) var(--spacing-lg);">
+      <div class="container">
+        <h2 class="text-center" style="font-size: var(--text-3xl); margin-bottom: var(--spacing-2xl); color: var(--accent-primary);">
+          THE BOOKING PROCESS
+        </h2>
+
+        <div style="display: grid; gap: var(--spacing-3xl);">
+          <!-- Step 1: Select Flight -->
+          <div style="display: grid; grid-template-columns: 100px 1fr; gap: var(--spacing-xl); align-items: start;">
+            <div style="text-align: center;">
+              <div style="width: 80px; height: 80px; border: 3px solid var(--accent-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: var(--text-3xl); color: var(--accent-primary);">
+                1
+              </div>
+            </div>
+            <div style="background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); padding: var(--spacing-xl);">
+              <h3 style="font-size: var(--text-2xl); margin-bottom: var(--spacing-md); color: var(--accent-primary);">Select Flight</h3>
+              <p class="text-secondary" style="margin-bottom: var(--spacing-md);">
+                Browse available routes and departure times from our database.
+              </p>
+              <div class="code-block" style="background: var(--bg-tertiary); padding: var(--spacing-md); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: var(--text-xs); overflow-x: auto;">
+GET /api/flights
+→ Flask queries MariaDB
+→ Returns available flights as JSON
+              </div>
+              <p class="text-muted" style="margin-top: var(--spacing-md); font-size: var(--text-sm);">
+                <strong>Security:</strong> Standard HTTPS encryption protects the connection. No quantum cryptography needed at this stage.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 2: Choose Seat -->
+          <div style="display: grid; grid-template-columns: 100px 1fr; gap: var(--spacing-xl); align-items: start;">
+            <div style="text-align: center;">
+              <div style="width: 80px; height: 80px; border: 3px solid var(--accent-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: var(--text-3xl); color: var(--accent-primary);">
+                2
+              </div>
+            </div>
+            <div style="background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); padding: var(--spacing-xl);">
+              <h3 style="font-size: var(--text-2xl); margin-bottom: var(--spacing-md); color: var(--accent-primary);">Choose Your Seat</h3>
+              <p class="text-secondary" style="margin-bottom: var(--spacing-md);">
+                Interactive seat map shows availability. Seat classes (First, Business, Economy) are determined via normalized database design.
+              </p>
+              <div class="code-block" style="background: var(--bg-tertiary); padding: var(--spacing-md); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: var(--text-xs); overflow-x: auto;">
+GET /api/seats/{flight_id}
+→ Range-based JOIN query
+→ Seat map with availability
+              </div>
+              <p class="text-muted" style="margin-top: var(--spacing-md); font-size: var(--text-sm);">
+                <strong>Database:</strong> 3NF normalization eliminates seat class redundancy. See <a href="/dist/education.html" style="color: var(--accent-primary);">Architecture</a> for details.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 3: Passenger Details -->
+          <div style="display: grid; grid-template-columns: 100px 1fr; gap: var(--spacing-xl); align-items: start;">
+            <div style="text-align: center;">
+              <div style="width: 80px; height: 80px; border: 3px solid var(--accent-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: var(--text-3xl); color: var(--accent-primary);">
+                3
+              </div>
+            </div>
+            <div style="background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); padding: var(--spacing-xl);">
+              <h3 style="font-size: var(--text-2xl); margin-bottom: var(--spacing-md); color: var(--accent-primary);">Enter Passenger Information</h3>
+              <p class="text-secondary" style="margin-bottom: var(--spacing-md);">
+                Provide name and passport number. Data prepared for quantum security processing.
+              </p>
+              <p class="text-muted" style="font-size: var(--text-sm);">
+                <strong>Next:</strong> Quantum cryptography applied automatically on booking confirmation.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 4: Quantum Security -->
+          <div style="display: grid; grid-template-columns: 100px 1fr; gap: var(--spacing-xl); align-items: start;">
+            <div style="text-align: center;">
+              <div style="width: 80px; height: 80px; border: 3px solid var(--accent-success); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: var(--text-2xl); color: var(--accent-success);">
+                ⚛
+              </div>
+            </div>
+            <div style="background: linear-gradient(135deg, rgba(126, 217, 162, 0.1), rgba(110, 181, 192, 0.1)); border: 2px solid var(--accent-success); border-radius: var(--radius-lg); padding: var(--spacing-xl);">
+              <h3 style="font-size: var(--text-2xl); margin-bottom: var(--spacing-md); color: var(--accent-success);">Quantum Security Applied</h3>
+              <p class="text-secondary" style="margin-bottom: var(--spacing-lg);">
+                The Quantum Trinity activates to secure your booking:
+              </p>
+              
+              <div style="display: grid; gap: var(--spacing-md);">
+                <div style="padding: var(--spacing-md); background: var(--bg-tertiary); border-left: 3px solid var(--accent-primary); border-radius: var(--radius-sm);">
+                  <div style="font-weight: 600; margin-bottom: var(--spacing-xs);">🎲 QRNG - Generate Booking Reference</div>
+                  <div class="text-secondary text-sm">Hadamard gate simulation creates unpredictable ID: <code style="color: var(--accent-success);">QREF-X7Z9-A2B4-C6D8</code></div>
+                </div>
+
+                <div style="padding: var(--spacing-md); background: var(--bg-tertiary); border-left: 3px solid var(--accent-primary); border-radius: var(--radius-sm);">
+                  <div style="font-weight: 600; margin-bottom: var(--spacing-xs);">🔐 Kyber-512 - Encrypt Passport</div>
+                  <div class="text-secondary text-sm">Generate keypair → Encapsulate secret → AES-256-GCM encryption → Store ciphertext</div>
+                </div>
+
+                <div style="padding: var(--spacing-md); background: var(--bg-tertiary); border-left: 3px solid var(--accent-primary); border-radius: var(--radius-sm);">
+                  <div style="font-weight: 600; margin-bottom: var(--spacing-xs);">💾 Database - INSERT Booking</div>
+                  <div class="text-secondary text-sm">Seat marked as booked, transaction committed with row-level locking</div>
+                </div>
+
+                <div style="padding: var(--spacing-md); background: var(--bg-tertiary); border-left: 3px solid var(--accent-success); border-radius: var(--radius-sm);">
+                  <div style="font-weight: 600; margin-bottom: var(--spacing-xs);">✍ Dilithium3 - Sign Ticket</div>
+                  <div class="text-secondary text-sm">Create payload → Generate quantum-safe signature → Return to user</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 5: Confirmation -->
+          <div style="display: grid; grid-template-columns: 100px 1fr; gap: var(--spacing-xl); align-items: start;">
+            <div style="text-align: center;">
+              <div style="width: 80px; height: 80px; border: 3px solid var(--accent-success); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: var(--text-3xl); color: var(--accent-success);">
+                ✓
+              </div>
+            </div>
+            <div style="background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); padding: var(--spacing-xl);">
+              <h3 style="font-size: var(--text-2xl); margin-bottom: var(--spacing-md); color: var(--accent-success);">Booking Confirmed</h3>
+              <p class="text-secondary" style="margin-bottom: var(--spacing-md);">
+                You receive your quantum-secured ticket with booking reference and digital signature.
+              </p>
+              <p class="text-muted" style="font-size: var(--text-sm);">
+                Your passport data is encrypted with post-quantum cryptography. Your ticket signature is unforgeable. Your booking ID is cryptographically random.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Verification Section -->
+    <section id="verification" style="padding: var(--spacing-3xl) var(--spacing-lg); background: var(--bg-secondary);">
+      <div class="container-md">
+        <h2 class="text-center" style="font-size: var(--text-3xl); margin-bottom: var(--spacing-2xl); color: var(--accent-primary);">
+          TICKET VERIFICATION
+        </h2>
+        
+        <div style="background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); padding: var(--spacing-xl);">
+          <div style="display: grid; gap: var(--spacing-lg);">
+            <div>
+              <div style="font-weight: 600; margin-bottom: var(--spacing-sm);">How Signature Verification Works</div>
+              <p class="text-secondary">
+                Dilithium3 digital signatures prove ticket authenticity without revealing the private signing key.
+              </p>
+            </div>
+
+            <div style="display: grid; gap: var(--spacing-sm);">
+              <div style="padding: var(--spacing-md); background: var(--bg-tertiary); border-radius: var(--radius-sm);">
+                <strong>1.</strong> Enter booking reference in verification tool
+              </div>
+              <div style="padding: var(--spacing-md); background: var(--bg-tertiary); border-radius: var(--radius-sm);">
+                <strong>2.</strong> System retrieves booking data and signature from database
+              </div>
+              <div style="padding: var(--spacing-md); background: var(--bg-tertiary); border-radius: var(--radius-sm);">
+                <strong>3.</strong> Public key verifies signature matches payload
+              </div>
+              <div style="padding: var(--spacing-md); background: var(--bg-tertiary); border-radius: var(--radius-sm);">
+                <strong>4.</strong> Result: ✓ VALID (authentic) or ✗ INVALID (tampered/forged)
+              </div>
+            </div>
+
+            <div style="text-align: center; margin-top: var(--spacing-md);">
+              <quantum-button variant="secondary">
+                <a href="/dist/booking.html#verify" style="text-decoration: none; color: inherit;">Try Verification Tool →</a>
+              </quantum-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section style="padding: var(--spacing-3xl) var(--spacing-lg);">
+      <div class="container-md">
+        <h2 class="text-center" style="font-size: var(--text-3xl); margin-bottom: var(--spacing-2xl); color: var(--accent-primary);">
+          FREQUENTLY ASKED QUESTIONS
+        </h2>
+
+        <div style="display: grid; gap: var(--spacing-lg);">
+          <div style="background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); padding: var(--spacing-xl);">
+            <h3 style="margin-bottom: var(--spacing-sm);">What is post-quantum cryptography?</h3>
+            <p class="text-secondary">
+              Post-quantum cryptography (PQC) refers to cryptographic algorithms that are secure against attacks by both classical and quantum computers. Unlike RSA and ECC which are vulnerable to Shor's algorithm, PQC uses different mathematical problems (like lattices) that remain hard for quantum computers.
+            </p>
+          </div>
+
+          <div style="background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); padding: var(--spacing-xl);">
+            <h3 style="margin-bottom: var(--spacing-sm);">Why does my booking need quantum security?</h3>
+            <p class="text-secondary">
+              "Harvest Now, Decrypt Later" attacks are happening today. Adversaries collect encrypted data now to decrypt when quantum computers become available (est. 2030-2035). Your passport data retains value for decades. Post-quantum encryption ensures it stays private forever.
+            </p>
+          </div>
+
+          <div style="background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); padding: var(--spacing-xl);">
+            <h3 style="margin-bottom: var(--spacing-sm);">Is this really quantum-safe?</h3>
+            <p class="text-secondary">
+              Yes. We use NIST-standardized algorithms (Kyber/FIPS 203, Dilithium/FIPS 204) that underwent years of cryptanalysis. Note: This demo uses simulated PQC (Python implementation). Production systems should use liboqs-python with hardware acceleration.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="padding: var(--spacing-3xl) var(--spacing-lg); text-align: center; background: var(--bg-secondary);">
+      <div class="container-md">
+        <h2 style="font-size: var(--text-3xl); margin-bottom: var(--spacing-lg);">
+          Ready to Experience Quantum Security?
+        </h2>
+        <quantum-button variant="primary">
+          <a href="/dist/booking.html" style="text-decoration: none; color: inherit;">Book Your Flight →</a>
+        </quantum-button>
+      </div>
+    </section>
+  </main>
+
+  <footer role="contentinfo" style="border-top: 1px solid var(--border-primary); padding: var(--spacing-xl); text-align: center; background: var(--bg-secondary);">
+    <p class="text-muted" style="font-size: var(--text-sm);">
+      Post-Quantum Cryptography Demo • NIST FIPS 203 & 204 Standardized
+    </p>
+  </footer>
+
+  <!-- Mobile Navigation Drawer -->
+  <mobile-nav>
+    <theme-toggle slot="theme-toggle"></theme-toggle>
+  </mobile-nav>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

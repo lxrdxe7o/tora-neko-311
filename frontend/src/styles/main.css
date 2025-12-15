@@ -1,0 +1,77 @@
+/* =============================================================================
+   Main Stylesheet - Quantum Airways
+   ============================================================================= */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* Base Styles */
+@import './themes/variables.css';
+@import './themes/dark.css';
+@import './themes/light.css';
+@import './base/reset.css';
+@import './base/typography.css';
+@import './base/utilities.css';
+
+/* Background Grid Effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(var(--anim-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--anim-line) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+/* Main content needs to be above background */
+main {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+/* Scanline Effect (Cyberpunk aesthetic) */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1) 0px,
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: var(--z-overlay);
+  opacity: 0.2;
+}
+
+/* Smooth scroll for whole page */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}

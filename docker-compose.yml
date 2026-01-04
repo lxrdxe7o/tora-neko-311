@@ -10,19 +10,16 @@ services:
       - db_data:/var/lib/mysql
       # Mount schema for manual initialization if needed, though init_db.py handles it
       - ./schema_mariadb.sql:/docker-entrypoint-initdb.d/schema.sql
-    ports:
-      - "3306:3306"
+    network_mode: "host"
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 5s
       timeout: 5s
       retries: 20
-    networks:
-      - quantum_net
 
   # Python Flask Backend
   backend:
-    build: .
+    image: quantum_backend:latest
     container_name: quantum_backend
     depends_on:
       db:
@@ -30,21 +27,17 @@ services:
     volumes:
       - .:/app
     environment:
-      DB_HOST: db
+      DB_HOST: 127.0.0.1
       DB_PORT: 3306
       DB_USER: root
       DB_PASSWORD: root
       DB_NAME: airline_db
     command: ["/bin/bash", "entrypoint.sh"]
-    ports:
-      - "5000:5000"
-    networks:
-      - quantum_net
+    network_mode: "host"
 
   # Frontend (Vite Dev Server)
   frontend:
-    build: 
-      context: ./frontend
+    image: quantum_frontend:latest
     container_name: quantum_frontend
     working_dir: /app
     volumes:
@@ -52,14 +45,9 @@ services:
       - /app/node_modules
     environment:
       - VITE_API_ABSOLUTE_URL=http://localhost:5000/api
-    ports:
-      - "3000:3000"
-    networks:
-      - quantum_net
+    network_mode: "host"
 
-networks:
-  quantum_net:
-    driver: bridge
+
 
 volumes:
   db_data:
